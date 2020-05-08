@@ -1,5 +1,20 @@
 export default [
   {
+    title: 'Советский Защитник',
+    price: 1234,
+    image: '/img/soviet-robot.jpg',
+  },
+  {
+    title: 'R2-D2',
+    price: 3456,
+    image: '/img/r2-d2.jpg',
+  },
+  {
+    title: 'Далек',
+    price: 5678,
+    image: '/img/dalek.jpg',
+  },
+  {
     title: 'Радионяня Motorola MBP16',
     price: 3690,
     image: '/img/radio.jpg',
