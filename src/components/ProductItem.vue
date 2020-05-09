@@ -1,38 +1,47 @@
 <template>
   <div>
     <a class="catalog__pic" href="#">
-      <img v-bind:src="product.image" alt="product.title" />
+      <img v-bind:src="product.image"
+           v-bind:alt="product.title"
+           v-bind:title="product.title" />
     </a>
 
     <h3 class="catalog__title">
       <a href="#">{{ product.title }}</a>
     </h3>
 
-    <span class="catalog__price">{{product.price}} ₽</span>
+    <span class="catalog__price">{{ product.price }} ₽</span>
 
-    <ul class="colors colors--black">
-      <li class="colors__item">
+    <ul v-if="product.colors" class="colors colors--black">
+      <li v-for="(color, index) in product.colors"
+          v-bind:key="index"
+          v-bind:title="color.name"
+          class="colors__item">
         <label class="colors__label">
           <input
             class="colors__radio sr-only"
             type="radio"
-            name="color-1"
-            value="#73B6EA"
-            checked
+            v-bind:name="'color-' + (productIndex + 1)"
+            v-bind:value="color.hash"
+            v-bind:checked="color.checked"
           />
-          <span class="colors__value" style="background-color: #73B6EA;"></span>
+          <span class="colors__value" v-bind:style="{ 'background-color': color.hash }"></span>
         </label>
       </li>
-      <li class="colors__item">
-        <label class="colors__label">
-          <input class="colors__radio sr-only" type="radio" name="color-1" value="#8BE000" />
-          <span class="colors__value" style="background-color: #8BE000;"></span>
-        </label>
-      </li>
-      <li class="colors__item">
-        <label class="colors__label">
-          <input class="colors__radio sr-only" type="radio" name="color-1" value="#222" />
-          <span class="colors__value" style="background-color: #222;"></span>
+    </ul>
+    <ul v-if="product.sizes" class="sizes">
+      <li v-for="(sizeItem, index) in product.sizes"
+          v-bind:key="index"
+          class="sizes__item">
+        <label class="sizes__label">
+          <input class="sizes__radio sr-only"
+                 type="radio"
+                 v-bind:name="'sizes-' + (productIndex + 1)"
+                 v-bind:value="sizeItem.size"
+                 v-bind:checked="sizeItem.checked">
+          <span class="sizes__value">
+            {{ sizeItem.size }} GB
+          </span>
         </label>
       </li>
     </ul>
@@ -41,6 +50,13 @@
 
 <script>
 export default {
-  props: ['product'],
+  props: {
+    product: {
+      type: Object,
+    },
+    productIndex: {
+      type: Number,
+    },
+  },
 };
 </script>

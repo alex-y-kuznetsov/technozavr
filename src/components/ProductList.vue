@@ -1,7 +1,7 @@
 <template>
     <ul class="catalog__list">
       <li class="catalog__item" v-for="(product, index) in products" v-bind:key="index">
-        <ProductItem v-bind:product="product" />
+        <ProductItem v-bind:product="product" v-bind:productIndex="index" />
       </li>
     </ul>
 </template>
@@ -11,6 +11,10 @@ import ProductItem from './ProductItem.vue';
 
 export default {
   components: { ProductItem },
-  props: ['products'],
+  props: {
+    products: {
+      type: Array,
+    },
+  },
 };
 </script>
