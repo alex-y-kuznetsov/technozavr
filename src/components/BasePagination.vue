@@ -1,36 +1,94 @@
 <template>
-    <ul class="catalog__pagination pagination">
-      <li class="pagination__item">
-        <a href="#"
-          class="pagination__link pagination__link--arrow"
-          v-bind:class="{'pagination__link--disabled': page === 1}"
-          aria-label="Предыдущая страница"
-          v-on:click.prevent="scrollPage('backward', page)">
-          <svg width="8" height="14" fill="currentColor">
-            <use xlink:href="#icon-arrow-left" />
-          </svg>
-        </a>
-      </li>
-      <li class="pagination__item" v-for="pageNumber in pages" v-bind:key="pageNumber">
-        <a href="#"
-           class="pagination__link"
-           v-bind:class="{'pagination__link--current': pageNumber === page}"
-           v-on:click.prevent="paginate(pageNumber)">
-          {{ pageNumber }}
-        </a>
-      </li>
-      <li class="pagination__item">
-        <a href="#"
-          class="pagination__link pagination__link--arrow"
-          v-bind:class="{'pagination__link--disabled': page === pages}"
-          aria-label="Следующая страница"
-          v-on:click.prevent="scrollPage('forward', page)">
-          <svg width="8" height="14" fill="currentColor">
-            <use xlink:href="#icon-arrow-right" />
-          </svg>
-        </a>
-      </li>
-    </ul>
+<!-- Pagination with limit -->
+  <ul v-if="pages > 4" class="catalog__pagination pagination">
+    <li class="pagination__item">
+      <a href="#"
+        class="pagination__link pagination__link--arrow"
+        v-bind:class="{'pagination__link--disabled': page === 1}"
+        aria-label="Предыдущая страница"
+        v-on:click.prevent="scrollPage('backward', page)">
+        <svg width="8" height="14" fill="currentColor">
+          <use xlink:href="#icon-arrow-left" />
+        </svg>
+      </a>
+    </li>
+    <li class="pagination__item" v-for="(pageNumber, index) in pagesArr.slice(1, 4)"
+        v-bind:key="index">
+      <a href="#"
+          class="pagination__link"
+          v-bind:class="{'pagination__link--current': pageNumber === page}"
+          v-on:click.prevent="paginate(pageNumber)">
+        {{ pageNumber }}
+      </a>
+    </li>
+    <li class="pagination__item">
+      <a class="pagination__link">
+        ...
+      </a>
+    </li>
+    <li v-if="page > 3 && page < pagesArr.length" class="pagination__item">
+      <a class="pagination__link pagination__link--current">
+        {{ page }}
+      </a>
+    </li>
+    <li v-if="page > 3 && page < pagesArr.length" class="pagination__item">
+      <a class="pagination__link">
+        ...
+      </a>
+    </li>
+    <li class="pagination__item">
+      <a href="#"
+          class="pagination__link"
+          v-bind:class="{'pagination__link--current': page === pagesArr.length}"
+          v-on:click.prevent="paginate(pages)">
+        {{ pages }}
+      </a>
+    </li>
+    <li class="pagination__item">
+      <a href="#"
+        class="pagination__link pagination__link--arrow"
+        v-bind:class="{'pagination__link--disabled': page === pages}"
+        aria-label="Следующая страница"
+        v-on:click.prevent="scrollPage('forward', page)">
+        <svg width="8" height="14" fill="currentColor">
+          <use xlink:href="#icon-arrow-right" />
+        </svg>
+      </a>
+    </li>
+  </ul>
+  <!-- Pagination for Short List -->
+  <ul v-else class="catalog__pagination pagination">
+    <li class="pagination__item">
+      <a href="#"
+        class="pagination__link pagination__link--arrow"
+        v-bind:class="{'pagination__link--disabled': page === 1}"
+        aria-label="Предыдущая страница"
+        v-on:click.prevent="scrollPage('backward', page)">
+        <svg width="8" height="14" fill="currentColor">
+          <use xlink:href="#icon-arrow-left" />
+        </svg>
+      </a>
+    </li>
+    <li class="pagination__item" v-for="pageNumber in pages" v-bind:key="pageNumber">
+      <a href="#"
+          class="pagination__link"
+          v-bind:class="{'pagination__link--current': pageNumber === page}"
+          v-on:click.prevent="paginate(pageNumber)">
+        {{ pageNumber }}
+      </a>
+    </li>
+    <li class="pagination__item">
+      <a href="#"
+        class="pagination__link pagination__link--arrow"
+        v-bind:class="{'pagination__link--disabled': page === pages}"
+        aria-label="Следующая страница"
+        v-on:click.prevent="scrollPage('forward', page)">
+        <svg width="8" height="14" fill="currentColor">
+          <use xlink:href="#icon-arrow-right" />
+        </svg>
+      </a>
+    </li>
+  </ul>
 </template>
 
 <script>
@@ -53,6 +111,14 @@ export default {
   computed: {
     pages() {
       return Math.ceil(this.count / this.perPage);
+    },
+    pagesArr() {
+      const arr = [];
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < this.pages; i++) {
+        arr.push(i);
+      }
+      return arr;
     },
   },
   methods: {

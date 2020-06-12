@@ -21,7 +21,7 @@ export default {
   data() {
     return {
       page: 1,
-      productsPerPage: 3,
+      productsPerPage: 2,
     };
   },
   computed: {
