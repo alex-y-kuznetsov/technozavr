@@ -6,7 +6,7 @@
         class="pagination__link pagination__link--arrow"
         v-bind:class="{'pagination__link--disabled': page === 1}"
         aria-label="Предыдущая страница"
-        v-on:click.prevent="scrollPage('backward', page)">
+        v-on:click.prevent="scrollPage(page - 1)">
         <svg width="8" height="14" fill="currentColor">
           <use xlink:href="#icon-arrow-left" />
         </svg>
@@ -49,7 +49,7 @@
         class="pagination__link pagination__link--arrow"
         v-bind:class="{'pagination__link--disabled': page === pages}"
         aria-label="Следующая страница"
-        v-on:click.prevent="scrollPage('forward', page)">
+        v-on:click.prevent="scrollPage(page + 1)">
         <svg width="8" height="14" fill="currentColor">
           <use xlink:href="#icon-arrow-right" />
         </svg>
@@ -63,7 +63,7 @@
         class="pagination__link pagination__link--arrow"
         v-bind:class="{'pagination__link--disabled': page === 1}"
         aria-label="Предыдущая страница"
-        v-on:click.prevent="scrollPage('backward', page)">
+        v-on:click.prevent="scrollPage(page - 1)">
         <svg width="8" height="14" fill="currentColor">
           <use xlink:href="#icon-arrow-left" />
         </svg>
@@ -82,7 +82,7 @@
         class="pagination__link pagination__link--arrow"
         v-bind:class="{'pagination__link--disabled': page === pages}"
         aria-label="Следующая страница"
-        v-on:click.prevent="scrollPage('forward', page)">
+        v-on:click.prevent="scrollPage(page + 1)">
         <svg width="8" height="14" fill="currentColor">
           <use xlink:href="#icon-arrow-right" />
         </svg>
@@ -90,6 +90,12 @@
     </li>
   </ul>
 </template>
+
+<style scoped>
+.pagination__link--disabled {
+  pointer-events: none;
+}
+</style>
 
 <script>
 export default {
@@ -125,13 +131,8 @@ export default {
     paginate(page) {
       this.$emit('paginate', page);
     },
-    scrollPage(direction, page) {
-      if (page < this.pages && direction === 'forward') {
-        this.$emit('paginate', (page + 1));
-      }
-      if (page > 1 && direction === 'backward') {
-        this.$emit('paginate', (page - 1));
-      }
+    scrollPage(direction) {
+      this.$emit('paginate', direction);
     },
   },
 };
