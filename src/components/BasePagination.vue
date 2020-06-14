@@ -1,6 +1,5 @@
 <template>
-<!-- Pagination with limit -->
-  <ul v-if="pages > 4" class="catalog__pagination pagination">
+  <ul class="catalog__pagination pagination">
     <li class="pagination__item">
       <a href="#"
         class="pagination__link pagination__link--arrow"
@@ -12,69 +11,13 @@
         </svg>
       </a>
     </li>
-    <li class="pagination__item" v-for="(pageNumber, index) in pagesArr.slice(1, 4)"
-        v-bind:key="index">
+    <li class="pagination__item" v-for="(pageItem, index) in croppedPagesList" v-bind:key="index">
       <a href="#"
           class="pagination__link"
-          v-bind:class="{'pagination__link--current': pageNumber === page}"
-          v-on:click.prevent="paginate(pageNumber)">
-        {{ pageNumber }}
-      </a>
-    </li>
-    <li class="pagination__item">
-      <a class="pagination__link">
-        ...
-      </a>
-    </li>
-    <li v-if="page > 3 && page < pagesArr.length" class="pagination__item">
-      <a class="pagination__link pagination__link--current">
-        {{ page }}
-      </a>
-    </li>
-    <li v-if="page > 3 && page < pagesArr.length" class="pagination__item">
-      <a class="pagination__link">
-        ...
-      </a>
-    </li>
-    <li class="pagination__item">
-      <a href="#"
-          class="pagination__link"
-          v-bind:class="{'pagination__link--current': page === pagesArr.length}"
-          v-on:click.prevent="paginate(pages)">
-        {{ pages }}
-      </a>
-    </li>
-    <li class="pagination__item">
-      <a href="#"
-        class="pagination__link pagination__link--arrow"
-        v-bind:class="{'pagination__link--disabled': page === pages}"
-        aria-label="Следующая страница"
-        v-on:click.prevent="scrollPage(page + 1)">
-        <svg width="8" height="14" fill="currentColor">
-          <use xlink:href="#icon-arrow-right" />
-        </svg>
-      </a>
-    </li>
-  </ul>
-  <!-- Pagination for Short List -->
-  <ul v-else class="catalog__pagination pagination">
-    <li class="pagination__item">
-      <a href="#"
-        class="pagination__link pagination__link--arrow"
-        v-bind:class="{'pagination__link--disabled': page === 1}"
-        aria-label="Предыдущая страница"
-        v-on:click.prevent="scrollPage(page - 1)">
-        <svg width="8" height="14" fill="currentColor">
-          <use xlink:href="#icon-arrow-left" />
-        </svg>
-      </a>
-    </li>
-    <li class="pagination__item" v-for="pageNumber in pages" v-bind:key="pageNumber">
-      <a href="#"
-          class="pagination__link"
-          v-bind:class="{'pagination__link--current': pageNumber === page}"
-          v-on:click.prevent="paginate(pageNumber)">
-        {{ pageNumber }}
+          v-bind:class="{'pagination__link--current': pageItem.index === page,
+                         'pagination__link--disabled': pageItem.disabled}"
+          v-on:click.prevent="paginate(pageItem.index)">
+        {{ pageItem.title }}
       </a>
     </li>
     <li class="pagination__item">
@@ -92,7 +35,8 @@
 </template>
 
 <style scoped>
-.pagination__link--disabled {
+.pagination__link--disabled,
+.pagination__link--current {
   pointer-events: none;
 }
 </style>
@@ -118,13 +62,80 @@ export default {
     pages() {
       return Math.ceil(this.count / this.perPage);
     },
-    pagesArr() {
-      const arr = [];
-      // eslint-disable-next-line no-plusplus
-      for (let i = 0; i < this.pages; i++) {
-        arr.push(i);
+    croppedPagesList() {
+      if (this.pages > 4) {
+        if (this.page !== 1
+            && this.page !== 2
+            && this.page !== 3
+            && this.page !== 4
+            && this.page !== this.pages) {
+          return [
+            {
+              title: 1,
+              index: 1,
+              disabled: false,
+            },
+            {
+              title: 2,
+              indx: 2,
+              disabled: false,
+            },
+            {
+              title: '...',
+              index: 0,
+              disabled: true,
+            },
+            {
+              title: this.page,
+              index: this.page,
+              disabled: false,
+            },
+            {
+              title: '...',
+              index: 0,
+              disabled: true,
+            },
+            {
+              title: this.pages,
+              index: this.pages,
+              disabled: false,
+            },
+          ];
+        }
+        return [
+          {
+            title: 1,
+            index: 1,
+            disabled: false,
+          },
+          {
+            title: 2,
+            index: 2,
+            disabled: false,
+          },
+          {
+            title: 3,
+            index: 3,
+            disabled: false,
+          },
+          {
+            title: 4,
+            index: 4,
+            disabled: false,
+          },
+          {
+            title: '...',
+            index: 0,
+            disabled: true,
+          },
+          {
+            title: this.pages,
+            index: this.pages,
+            disabled: false,
+          },
+        ];
       }
-      return arr;
+      return this.pages;
     },
   },
   methods: {
