@@ -1,5 +1,6 @@
 export default [
   {
+    id: 1,
     title: 'Советский Защитник',
     price: 1234,
     image: '/img/soviet-robot.jpg',
@@ -22,6 +23,7 @@ export default [
     ],
   },
   {
+    id: 2,
     title: 'R2-D2',
     price: 3456,
     image: '/img/r2-d2.jpg',
@@ -44,6 +46,7 @@ export default [
     ],
   },
   {
+    id: 3,
     title: 'Далек',
     price: 5678,
     image: '/img/dalek.jpg',
@@ -66,6 +69,7 @@ export default [
     ],
   },
   {
+    id: 4,
     title: 'Радионяня Motorola MBP16',
     price: 3690,
     image: '/img/radio.jpg',
@@ -88,6 +92,7 @@ export default [
     ],
   },
   {
+    id: 5,
     title: 'Ультразвуковая зубная щётка Playbrush Smart Sonic',
     price: 5660,
     image: '/img/toothbrush.jpg',
@@ -110,6 +115,7 @@ export default [
     ],
   },
   {
+    id: 6,
     title: 'Смартфон Xiaomi Mi Mix 3 6/128GB',
     price: 21790,
     image: '/img/phone.jpg',
@@ -129,6 +135,7 @@ export default [
     ],
   },
   {
+    id: 7,
     title: 'Электроскейт Razor Cruiser',
     price: 24690,
     image: '/img/board.jpg',
@@ -151,6 +158,7 @@ export default [
     ],
   },
   {
+    id: 8,
     title: 'Смартфон Xiaomi Mi A3 4/64GB Android One',
     price: 14960,
     image: 'img/phone-2.jpg',
@@ -170,6 +178,7 @@ export default [
     ],
   },
   {
+    id: 9,
     title: 'Смартфон Xiaomi Redmi 6/128GB',
     price: 8960,
     image: '/img/phone-3.jpg',
@@ -189,6 +198,7 @@ export default [
     ],
   },
   {
+    id: 10,
     title: 'Электрический дрифт-карт Razor Crazy Cart',
     price: 39900,
     image: '/img/bicycle.jpg',
@@ -211,6 +221,7 @@ export default [
     ],
   },
   {
+    id: 11,
     title: 'Гироскутер Razor Hovertrax 2.0',
     price: 34900,
     image: '/img/wheels.jpg',
@@ -233,6 +244,7 @@ export default [
     ],
   },
   {
+    id: 12,
     title: 'Детский трюковой самокат Razor Grom',
     price: 4990,
     image: '/img/scooter.jpg',
@@ -255,6 +267,7 @@ export default [
     ],
   },
   {
+    id: 13,
     title: 'Роллерсёрф Razor RipStik Air Pro',
     price: 6690,
     image: '/img/ripstik.jpg',
@@ -277,6 +290,7 @@ export default [
     ],
   },
   {
+    id: 14,
     title: 'Наушники AirPods с беспроводным зарядным футляром',
     price: 16560,
     image: '/img/airpods.jpg',
@@ -299,6 +313,7 @@ export default [
     ],
   },
   {
+    id: 15,
     title: 'Наушники Sony',
     price: 30690,
     image: '/img/headphones.jpg',
