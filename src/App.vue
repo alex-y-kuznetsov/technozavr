@@ -15,6 +15,7 @@
       <ProductFilter v-bind:price-from.sync="filterPriceFrom"
                      v-bind:price-to.sync="filterPriceTo"
                      v-bind:category.sync="filterCategoryId"
+                     v-bind:colorId.sync="filterColorId"
                      v-bind:page.sync="page"/>
 
       <section class="catalog">
@@ -44,6 +45,7 @@ export default {
       filterPriceFrom: 0,
       filterPriceTo: 0,
       filterCategoryId: 0,
+      filterColorId: 0,
       page: 1,
       productsPerPage: 2,
     };
@@ -62,6 +64,19 @@ export default {
       if (this.filterCategoryId) {
         // eslint-disable-next-line max-len
         filteredProducts = filteredProducts.filter((product) => product.categoryId === this.filterCategoryId);
+      }
+      // if (this.filterColorId) {
+      //   const newArr = [];
+      //   products.forEach((item) => {
+      //     newArr.push(item.colors.filter((color) => color.colorId === this.filterColorId));
+      //   });
+      //   // eslint-disable-next-line no-console
+      //   console.log(newArr);
+      //   filteredProducts = newArr;
+      // }
+      if (this.filterColorId) {
+        // eslint-disable-next-line max-len
+        filteredProducts = filteredProducts.filter((product) => product.colors.filter((color) => color.colorId === this.filterColorId));
       }
       return filteredProducts;
     },

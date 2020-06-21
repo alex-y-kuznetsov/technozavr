@@ -7,16 +7,19 @@ export default [
     image: '/img/soviet-robot.jpg',
     colors: [
       {
+        colorId: 1,
         name: 'Синий',
         hash: '#73B6EA',
         checked: true,
       },
       {
+        colorId: 2,
         name: 'Зеленый',
         hash: '#8BE000',
         checked: false,
       },
       {
+        colorId: 3,
         name: 'Черный',
         hash: '#222222',
         checked: false,
@@ -31,19 +34,19 @@ export default [
     image: '/img/r2-d2.jpg',
     colors: [
       {
-        name: 'Синий',
-        hash: '#73B6EA',
-        checked: false,
+        colorId: 4,
+        name: 'Розовый',
+        hash: '#f90448',
       },
       {
-        name: 'Зеленый',
-        hash: '#8BE000',
-        checked: true,
+        colorId: 5,
+        name: 'Желтый',
+        hash: '#ecff25',
       },
       {
-        name: 'Черный',
-        hash: '#222222',
-        checked: false,
+        colorId: 6,
+        name: 'Оранжевый',
+        hash: '#f96504',
       },
     ],
   },
@@ -55,16 +58,19 @@ export default [
     image: '/img/dalek.jpg',
     colors: [
       {
+        colorId: 1,
         name: 'Синий',
         hash: '#73B6EA',
         checked: false,
       },
       {
+        colorId: 2,
         name: 'Зеленый',
         hash: '#8BE000',
         checked: false,
       },
       {
+        colorId: 3,
         name: 'Черный',
         hash: '#222222',
         checked: true,
@@ -79,16 +85,19 @@ export default [
     image: '/img/radio.jpg',
     colors: [
       {
+        colorId: 1,
         name: 'Синий',
         hash: '#73B6EA',
         checked: false,
       },
       {
+        colorId: 2,
         name: 'Зеленый',
         hash: '#8BE000',
         checked: false,
       },
       {
+        colorId: 3,
         name: 'Черный',
         hash: '#222222',
         checked: true,
@@ -103,16 +112,19 @@ export default [
     image: '/img/toothbrush.jpg',
     colors: [
       {
+        colorId: 1,
         name: 'Синий',
         hash: '#73B6EA',
         checked: false,
       },
       {
+        colorId: 2,
         name: 'Зеленый',
         hash: '#8BE000',
         checked: false,
       },
       {
+        colorId: 3,
         name: 'Черный',
         hash: '#222222',
         checked: true,
@@ -148,16 +160,19 @@ export default [
     image: '/img/board.jpg',
     colors: [
       {
+        colorId: 1,
         name: 'Синий',
         hash: '#73B6EA',
         checked: true,
       },
       {
+        colorId: 2,
         name: 'Зеленый',
         hash: '#8BE000',
         checked: false,
       },
       {
+        colorId: 3,
         name: 'Черный',
         hash: '#222222',
         checked: false,
@@ -214,16 +229,19 @@ export default [
     image: '/img/bicycle.jpg',
     colors: [
       {
+        colorId: 1,
         name: 'Синий',
         hash: '#73B6EA',
         checked: true,
       },
       {
+        colorId: 2,
         name: 'Зеленый',
         hash: '#8BE000',
         checked: false,
       },
       {
+        colorId: 3,
         name: 'Черный',
         hash: '#222222',
         checked: false,
@@ -238,16 +256,19 @@ export default [
     image: '/img/wheels.jpg',
     colors: [
       {
+        colorId: 1,
         name: 'Синий',
         hash: '#73B6EA',
         checked: true,
       },
       {
+        colorId: 2,
         name: 'Зеленый',
         hash: '#8BE000',
         checked: false,
       },
       {
+        colorId: 3,
         name: 'Черный',
         hash: '#222222',
         checked: false,
@@ -262,16 +283,19 @@ export default [
     image: '/img/scooter.jpg',
     colors: [
       {
+        colorId: 1,
         name: 'Синий',
         hash: '#73B6EA',
         checked: true,
       },
       {
+        colorId: 2,
         name: 'Зеленый',
         hash: '#8BE000',
         checked: false,
       },
       {
+        colorId: 3,
         name: 'Черный',
         hash: '#222222',
         checked: false,
@@ -286,16 +310,19 @@ export default [
     image: '/img/ripstik.jpg',
     colors: [
       {
+        colorId: 1,
         name: 'Синий',
         hash: '#73B6EA',
         checked: true,
       },
       {
+        colorId: 2,
         name: 'Зеленый',
         hash: '#8BE000',
         checked: false,
       },
       {
+        colorId: 3,
         name: 'Черный',
         hash: '#222222',
         checked: false,
@@ -310,16 +337,19 @@ export default [
     image: '/img/airpods.jpg',
     colors: [
       {
+        colorId: 1,
         name: 'Синий',
         hash: '#73B6EA',
         checked: true,
       },
       {
+        colorId: 2,
         name: 'Зеленый',
         hash: '#8BE000',
         checked: false,
       },
       {
+        colorId: 3,
         name: 'Черный',
         hash: '#222222',
         checked: false,
@@ -334,16 +364,19 @@ export default [
     image: '/img/headphones.jpg',
     colors: [
       {
+        colorId: 1,
         name: 'Синий',
         hash: '#73B6EA',
         checked: true,
       },
       {
+        colorId: 2,
         name: 'Зеленый',
         hash: '#8BE000',
         checked: false,
       },
       {
+        colorId: 3,
         name: 'Черный',
         hash: '#222222',
         checked: false,
