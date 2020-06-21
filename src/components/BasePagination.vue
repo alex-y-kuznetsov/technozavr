@@ -23,7 +23,7 @@
     <li class="pagination__item">
       <a href="#"
         class="pagination__link pagination__link--arrow"
-        v-bind:class="{'pagination__link--disabled': page === pages}"
+        v-bind:class="{'pagination__link--disabled': page === pages.length}"
         aria-label="Следующая страница"
         v-on:click.prevent="scrollPage(page + 1)">
         <svg width="8" height="14" fill="currentColor">
@@ -60,10 +60,21 @@ export default {
   },
   computed: {
     pages() {
-      return Math.ceil(this.count / this.perPage);
+      const length = Math.ceil(this.count / this.perPage);
+      const pagesList = [];
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < length; i++) {
+        const pageItem = {
+          title: i + 1,
+          index: i + 1,
+          disabled: false,
+        };
+        pagesList.push(pageItem);
+      }
+      return pagesList;
     },
     croppedPagesList() {
-      if (this.pages > 4) {
+      if (this.pages.length > 4) {
         if (this.page !== 1
             && this.page !== 2
             && this.page !== 3
@@ -96,8 +107,8 @@ export default {
               disabled: true,
             },
             {
-              title: this.pages,
-              index: this.pages,
+              title: this.pages.length,
+              index: this.pages.length,
               disabled: false,
             },
           ];
@@ -129,8 +140,8 @@ export default {
             disabled: true,
           },
           {
-            title: this.pages,
-            index: this.pages,
+            title: this.pages.length,
+            index: this.pages.length,
             disabled: false,
           },
         ];
