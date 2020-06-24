@@ -14,6 +14,7 @@
         v-bind:price-to.sync="filterPriceTo"
         v-bind:category.sync="filterCategoryId"
         v-bind:colorId.sync="filterColorId"
+        v-bind:sizeId.sync="filterSizeId"
         v-bind:page.sync="page"
       />
 
@@ -44,6 +45,7 @@ export default {
       filterPriceTo: 0,
       filterCategoryId: 0,
       filterColorId: 0,
+      filterSizeId: [],
       page: 1,
       productsPerPage: 2,
     };
@@ -75,6 +77,21 @@ export default {
         productsWithColors.forEach((item) => {
           item.colors.forEach((color) => {
             if (color.colorId === localThis.filterColorId) {
+              newArr.push(item);
+            }
+          });
+        });
+        filteredProducts = newArr;
+      }
+      if (this.filterSizeId && this.filterSizeId.length) {
+        const localThis = this;
+        const productsWithSizes = filteredProducts.filter(
+          (product) => product.sizes,
+        );
+        const newArr = [];
+        productsWithSizes.forEach((item) => {
+          item.sizes.forEach((size) => {
+            if (localThis.filterSizeId.includes(size.sizeId)) {
               newArr.push(item);
             }
           });

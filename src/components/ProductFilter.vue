@@ -38,7 +38,8 @@
               <li class="colors__item" v-for="color in colors" v-bind:key="color.colorId">
                 <label class="colors__label">
                   <input class="colors__radio sr-only"
-                         type="radio" name="color" v-bind:value="color.colorId" checked="">
+                         type="radio" name="color" v-bind:value="color.colorId"
+                                                   v-model.number="currentColorId">
                   <span class="colors__value" v-bind:style="{ 'background-color': color.hash }">
                   </span>
                 </label>
@@ -49,59 +50,15 @@
           <fieldset class="form__block">
             <legend class="form__legend">Объемб в ГБ</legend>
             <ul class="check-list">
-              <li class="check-list__item">
-                <label class="check-list__label">
+              <li class="check-list__item" v-for="size in sizes" v-bind:key="size.sizeName">
+                <label class="check-list__label" v-bind:for="'volume_' + size.sizeName">
                   <input class="check-list__check sr-only"
-                         type="checkbox" name="volume" value="8" checked="">
+                         type="checkbox" v-bind:id="'volume_' + size.sizeName"
+                         v-bind:name="'volume_' + size.sizeName"
+                         v-bind:value="size.sizeId"
+                         v-model.number="currentSizeId">
                   <span class="check-list__desc">
-                    8
-                    <span>(313)</span>
-                  </span>
-                </label>
-              </li>
-              <li class="check-list__item">
-                <label class="check-list__label">
-                  <input class="check-list__check sr-only" type="checkbox" name="volume" value="16">
-                  <span class="check-list__desc">
-                    16
-                    <span>(461)</span>
-                  </span>
-                </label>
-              </li>
-              <li class="check-list__item">
-                <label class="check-list__label">
-                  <input class="check-list__check sr-only" type="checkbox" name="volume" value="32">
-                  <span class="check-list__desc">
-                    32
-                    <span>(313)</span>
-                  </span>
-                </label>
-              </li>
-              <li class="check-list__item">
-                <label class="check-list__label">
-                  <input class="check-list__check sr-only" type="checkbox" name="volume" value="64">
-                  <span class="check-list__desc">
-                    64
-                    <span>(313)</span>
-                  </span>
-                </label>
-              </li>
-              <li class="check-list__item">
-                <label class="check-list__label">
-                  <input class="check-list__check sr-only"
-                         type="checkbox" name="volume" value="128">
-                  <span class="check-list__desc">
-                    128
-                    <span>(313)</span>
-                  </span>
-                </label>
-              </li>
-              <li class="check-list__item">
-                <label class="check-list__label">
-                  <input class="check-list__check sr-only"
-                         type="checkbox" name="volume" value="264">
-                  <span class="check-list__desc">
-                    264
+                    {{ size.sizeName }}
                     <span>(313)</span>
                   </span>
                 </label>
@@ -122,6 +79,7 @@
 <script>
 import categories from '../data/categories';
 import colors from '../data/colors';
+import sizes from '../data/sizes';
 
 export default {
   data() {
@@ -130,6 +88,7 @@ export default {
       currentPriceTo: 0,
       currentCategoryId: 0,
       currentColorId: 0,
+      currentSizeId: [],
     };
   },
   props: {
@@ -145,6 +104,9 @@ export default {
     colorId: {
       type: Number,
     },
+    sizeId: {
+      type: Array,
+    },
     page: {
       type: Number,
     },
@@ -155,6 +117,9 @@ export default {
     },
     colors() {
       return colors;
+    },
+    sizes() {
+      return sizes;
     },
   },
   watch: {
@@ -167,6 +132,12 @@ export default {
     category(value) {
       this.currentCategoryId = value;
     },
+    colorId(value) {
+      this.currentColorId = value;
+    },
+    sizeId(value) {
+      this.currentSizeId = value;
+    },
   },
   methods: {
     submit() {
@@ -174,12 +145,16 @@ export default {
       this.$emit('update:priceFrom', this.currentPriceFrom);
       this.$emit('update:priceTo', this.currentPriceTo);
       this.$emit('update:category', this.currentCategoryId);
+      this.$emit('update:colorId', this.currentColorId);
+      this.$emit('update:sizeId', this.currentSizeId);
     },
     reset() {
       this.$emit('update:page', 1);
       this.$emit('update:priceFrom', 0);
       this.$emit('update:priceTo', 0);
       this.$emit('update:category', 0);
+      this.$emit('update:colorId', 0);
+      this.$emit('update:sizeId', 0);
     },
   },
 };

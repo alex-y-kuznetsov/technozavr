@@ -139,14 +139,17 @@ export default [
     image: '/img/phone.jpg',
     sizes: [
       {
+        sizeId: 3,
         size: 32,
         checked: false,
       },
       {
+        sizeId: 4,
         size: 64,
         checked: false,
       },
       {
+        sizeId: 5,
         size: 128,
         checked: true,
       },
@@ -187,15 +190,18 @@ export default [
     image: 'img/phone-2.jpg',
     sizes: [
       {
-        size: 32,
+        sizeId: 1,
+        size: 8,
         checked: false,
       },
       {
-        size: 64,
+        sizeId: 2,
+        size: 16,
         checked: true,
       },
       {
-        size: 128,
+        sizeId: 3,
+        size: 32,
         checked: false,
       },
     ],
@@ -208,15 +214,18 @@ export default [
     image: '/img/phone-3.jpg',
     sizes: [
       {
+        sizeId: 3,
         size: 32,
         checked: false,
       },
       {
+        sizeid: 4,
         size: 64,
         checked: false,
       },
       {
-        size: 128,
+        sizeId: 6,
+        size: 256,
         checked: true,
       },
     ],
