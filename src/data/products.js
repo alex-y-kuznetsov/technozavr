@@ -219,7 +219,7 @@ export default [
         checked: false,
       },
       {
-        sizeid: 4,
+        sizeId: 4,
         size: 64,
         checked: false,
       },

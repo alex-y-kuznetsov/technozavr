@@ -16,6 +16,7 @@
         v-bind:colorId.sync="filterColorId"
         v-bind:sizeId.sync="filterSizeId"
         v-bind:page.sync="page"
+        v-bind:all-products="allProducts"
       />
 
       <section class="catalog">
@@ -104,6 +105,9 @@ export default {
       const offset = (this.page - 1) * this.productsPerPage;
 
       return this.filteredProducts.slice(offset, offset + this.productsPerPage);
+    },
+    allProducts() {
+      return products;
     },
     countProducts() {
       return this.filteredProducts.length;

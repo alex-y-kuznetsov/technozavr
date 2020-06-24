@@ -48,7 +48,7 @@
           </fieldset>
 
           <fieldset class="form__block">
-            <legend class="form__legend">Объемб в ГБ</legend>
+            <legend class="form__legend">Объем в ГБ</legend>
             <ul class="check-list">
               <li class="check-list__item" v-for="size in sizes" v-bind:key="size.sizeName">
                 <label class="check-list__label" v-bind:for="'volume_' + size.sizeName">
@@ -59,7 +59,7 @@
                          v-model.number="currentSizeId">
                   <span class="check-list__desc">
                     {{ size.sizeName }}
-                    <span>(313)</span>
+                    <span>{{ countProductsBySize(size.sizeId) }}</span>
                   </span>
                 </label>
               </li>
@@ -110,6 +110,9 @@ export default {
     page: {
       type: Number,
     },
+    allProducts: {
+      type: Array,
+    },
   },
   computed: {
     categories() {
@@ -154,7 +157,21 @@ export default {
       this.$emit('update:priceTo', 0);
       this.$emit('update:category', 0);
       this.$emit('update:colorId', 0);
-      this.$emit('update:sizeId', 0);
+      this.$emit('update:sizeId', []);
+    },
+    countProductsBySize(sizeGroupId) {
+      const newArr = [];
+      const productsWithSizes = this.allProducts.filter(
+        (product) => product.sizes,
+      );
+      productsWithSizes.forEach((item) => {
+        item.sizes.forEach((size) => {
+          if (size.sizeId === sizeGroupId) {
+            newArr.push(item);
+          }
+        });
+        return newArr.length;
+      });
     },
   },
 };
