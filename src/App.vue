@@ -1,34 +1,32 @@
-/* eslint-disable max-len */
+/* eslint-disable no-console */
+/* eslint-disable */
 
 <template>
-<main class="content container">
+  <main class="content container">
     <div class="content__top content__top--catalog">
-      <h1 class="content__title">
-        Каталог
-      </h1>
-      <span class="content__info">
-        152 товара
-      </span>
+      <h1 class="content__title">Каталог</h1>
+      <span class="content__info">152 товара</span>
     </div>
 
     <div class="content__catalog">
-      <ProductFilter v-bind:price-from.sync="filterPriceFrom"
-                     v-bind:price-to.sync="filterPriceTo"
-                     v-bind:category.sync="filterCategoryId"
-                     v-bind:colorId.sync="filterColorId"
-                     v-bind:page.sync="page"/>
+      <ProductFilter
+        v-bind:price-from.sync="filterPriceFrom"
+        v-bind:price-to.sync="filterPriceTo"
+        v-bind:category.sync="filterCategoryId"
+        v-bind:colorId.sync="filterColorId"
+        v-bind:page.sync="page"
+      />
 
       <section class="catalog">
-
-    <ProductList v-bind:products="products" />
-    <BasePagination v-model="page"
-                    v-bind:count="countProducts"
-                    v-bind:per-page="productsPerPage" />
-
-  </section>
+        <ProductList v-bind:products="products" />
+        <BasePagination
+          v-model="page"
+          v-bind:count="countProducts"
+          v-bind:per-page="productsPerPage"
+        />
+      </section>
     </div>
   </main>
-
 </template>
 
 <script>
@@ -54,29 +52,34 @@ export default {
     filteredProducts() {
       let filteredProducts = products;
       if (this.filterPriceFrom > 0) {
-        // eslint-disable-next-line max-len
-        filteredProducts = filteredProducts.filter((product) => product.price > this.filterPriceFrom);
+        filteredProducts = filteredProducts.filter(
+          (product) => product.price > this.filterPriceFrom,
+        );
       }
       if (this.filterPriceTo > 0) {
-        // eslint-disable-next-line max-len
-        filteredProducts = filteredProducts.filter((product) => product.price < this.filterPriceTo);
+        filteredProducts = filteredProducts.filter(
+          (product) => product.price < this.filterPriceTo,
+        );
       }
       if (this.filterCategoryId) {
-        // eslint-disable-next-line max-len
-        filteredProducts = filteredProducts.filter((product) => product.categoryId === this.filterCategoryId);
+        filteredProducts = filteredProducts.filter(
+          (product) => product.categoryId === this.filterCategoryId,
+        );
       }
-      // if (this.filterColorId) {
-      //   const newArr = [];
-      //   products.forEach((item) => {
-      //     newArr.push(item.colors.filter((color) => color.colorId === this.filterColorId));
-      //   });
-      //   // eslint-disable-next-line no-console
-      //   console.log(newArr);
-      //   filteredProducts = newArr;
-      // }
       if (this.filterColorId) {
-        // eslint-disable-next-line max-len
-        filteredProducts = filteredProducts.filter((product) => product.colors.filter((color) => color.colorId === this.filterColorId));
+        const localThis = this;
+        const productsWithColors = filteredProducts.filter(
+          (product) => product.colors,
+        );
+        const newArr = [];
+        productsWithColors.forEach((item) => {
+          item.colors.forEach((color) => {
+            if (color.colorId === localThis.filterColorId) {
+              newArr.push(item);
+            }
+          });
+        });
+        filteredProducts = newArr;
       }
       return filteredProducts;
     },
