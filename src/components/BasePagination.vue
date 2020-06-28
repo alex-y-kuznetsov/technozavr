@@ -42,6 +42,8 @@
 </style>
 
 <script>
+import constants from '../constants';
+
 export default {
   model: {
     prop: 'page',
@@ -74,7 +76,7 @@ export default {
       return pagesList;
     },
     croppedPagesList() {
-      if (this.pages.length > 4) {
+      if (this.pages.length > constants.PAGES_CROP_THRESHOLD) {
         if (this.page !== 1
             && this.page !== 2
             && this.page !== 3
