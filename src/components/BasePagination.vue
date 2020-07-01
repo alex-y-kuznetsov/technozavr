@@ -77,10 +77,7 @@ export default {
     },
     croppedPagesList() {
       if (this.pages.length > constants.PAGES_CROP_THRESHOLD) {
-        if (this.page !== 1
-            && this.page !== 2
-            && this.page !== 3
-            && this.page !== 4
+        if (this.page > constants.PAGES_CROP_THRESHOLD
             && this.page !== this.pages) {
           return [
             {

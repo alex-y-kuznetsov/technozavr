@@ -49,6 +49,7 @@ export default {
       filterSizeId: [],
       page: 1,
       productsPerPage: 2,
+      productsBySize: {},
     };
   },
   computed: {
@@ -97,7 +98,7 @@ export default {
             }
           });
         });
-        filteredProducts = newArr;
+        filteredProducts = Array.from(new Set(newArr));
       }
       return filteredProducts;
     },
@@ -112,6 +113,26 @@ export default {
     countProducts() {
       return this.filteredProducts.length;
     },
+  },
+  methods: {
+    countProductsBySize() {
+      const newObj = {};
+      const productsWithSizes = this.allProducts.filter(
+        (product) => product.sizes,
+      );
+      productsWithSizes.forEach((item) => {
+        item.sizes.forEach((size) => {
+          // Get totals by size here
+          newObj[size.sizeId] = productsWithSizes.filter(
+            (element) => element.sizes.filter((innerSize) => innerSize.sizeId === size.sizeId),
+          ).length;
+        });
+        this.productsBySize = newObj;
+      });
+    },
+  },
+  mounted() {
+    this.countProductsBySize();
   },
 };
 </script>

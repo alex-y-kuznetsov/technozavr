@@ -59,7 +59,7 @@
                          v-model.number="currentSizeId">
                   <span class="check-list__desc">
                     {{ size.sizeName }}
-                    <span>{{ countProductsBySize(size.sizeId) }}</span>
+                    <span>123</span>
                   </span>
                 </label>
               </li>
@@ -158,20 +158,6 @@ export default {
       this.$emit('update:category', 0);
       this.$emit('update:colorId', 0);
       this.$emit('update:sizeId', []);
-    },
-    countProductsBySize(sizeGroupId) {
-      const newArr = [];
-      const productsWithSizes = this.allProducts.filter(
-        (product) => product.sizes,
-      );
-      productsWithSizes.forEach((item) => {
-        item.sizes.forEach((size) => {
-          if (size.sizeId === sizeGroupId) {
-            newArr.push(item);
-          }
-        });
-        return newArr.length;
-      });
     },
   },
 };
