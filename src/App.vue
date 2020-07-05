@@ -17,6 +17,7 @@
         v-bind:sizeId.sync="filterSizeId"
         v-bind:page.sync="page"
         v-bind:all-products="allProducts"
+        v-bind:products-by-size="productsBySize"
       />
 
       <section class="catalog">
@@ -116,19 +117,19 @@ export default {
   },
   methods: {
     countProductsBySize() {
-      const newObj = {};
       const productsWithSizes = this.allProducts.filter(
         (product) => product.sizes,
       );
-      productsWithSizes.forEach((item) => {
-        item.sizes.forEach((size) => {
-          // Get totals by size here
-          newObj[size.sizeId] = productsWithSizes.filter(
-            (element) => element.sizes.filter((innerSize) => innerSize.sizeId === size.sizeId),
-          ).length;
-        });
-        this.productsBySize = newObj;
+      const sizes = productsWithSizes.reduce(
+        (acc, curr) => [...acc, ...curr.sizes], [],
+      ).map((item) => item.sizeId);
+      const uniqueSizes = Array.from(new Set(sizes));
+      const result = {};
+      uniqueSizes.forEach((uniqueSize) => {
+        const uniqueCount = sizes.filter((size) => size === uniqueSize).length;
+        result[uniqueSize] = uniqueCount;
       });
+      this.productsBySize = result;
     },
   },
   mounted() {

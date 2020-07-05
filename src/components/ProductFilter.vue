@@ -59,7 +59,7 @@
                          v-model.number="currentSizeId">
                   <span class="check-list__desc">
                     {{ size.sizeName }}
-                    <span>123</span>
+                    <span>({{ productsBySize[size.sizeId] }})</span>
                   </span>
                 </label>
               </li>
@@ -112,6 +112,9 @@ export default {
     },
     allProducts: {
       type: Array,
+    },
+    productsBySize: {
+      type: Object,
     },
   },
   computed: {
