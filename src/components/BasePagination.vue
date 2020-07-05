@@ -76,76 +76,34 @@ export default {
       return pagesList;
     },
     croppedPagesList() {
-      if (this.pages.length > constants.PAGES_CROP_THRESHOLD) {
-        if (this.page > constants.PAGES_CROP_THRESHOLD
-            && this.page !== this.pages) {
-          return [
-            {
-              title: 1,
-              index: 1,
-              disabled: false,
-            },
-            {
-              title: 2,
-              indx: 2,
-              disabled: false,
-            },
-            {
-              title: '...',
-              index: 0,
-              disabled: true,
-            },
-            {
-              title: this.page,
-              index: this.page,
-              disabled: false,
-            },
-            {
-              title: '...',
-              index: 0,
-              disabled: true,
-            },
-            {
-              title: this.pages.length,
-              index: this.pages.length,
-              disabled: false,
-            },
-          ];
-        }
-        return [
-          {
-            title: 1,
-            index: 1,
-            disabled: false,
-          },
-          {
-            title: 2,
-            index: 2,
-            disabled: false,
-          },
-          {
-            title: 3,
-            index: 3,
-            disabled: false,
-          },
-          {
-            title: 4,
-            index: 4,
-            disabled: false,
-          },
-          {
-            title: '...',
-            index: 0,
-            disabled: true,
-          },
-          {
-            title: this.pages.length,
-            index: this.pages.length,
-            disabled: false,
-          },
-        ];
+      const croppedPagesList = [];
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < this.pages.length; i++) {
+        const index = i + 1;
+        const pageItem = {
+          title: index,
+          index,
+          disabled: false,
+          visible: this.isVisible(index),
+        };
+        croppedPagesList.push(pageItem);
       }
-      return this.pages;
+      const pointsObj = {
+        title: '...',
+        index: Number,
+        disabled: true,
+        visible: true,
+      };
+      if (this.page > constants.PAGES_CROP_THRESHOLD && this.page !== croppedPagesList.length) {
+        const cropThresholdJump = this.page === constants.PAGES_CROP_THRESHOLD + 1;
+        const cropDelete = cropThresholdJump ? 0 : 1;
+        const cropStart = cropThresholdJump ? this.page - 1 : this.page - 2;
+        croppedPagesList.splice(cropStart, cropDelete, pointsObj);
+      }
+      if (this.pages.length > constants.PAGES_CROP_THRESHOLD) {
+        croppedPagesList.splice((croppedPagesList.length - 1), 0, pointsObj);
+      }
+      return croppedPagesList.filter((pageItem) => pageItem.visible);
     },
   },
   methods: {
@@ -154,6 +112,11 @@ export default {
     },
     scrollPage(direction) {
       this.$emit('paginate', direction);
+    },
+    isVisible(index) {
+      return index === this.page
+      || index <= constants.PAGES_CROP_THRESHOLD
+      || index === this.pages.length;
     },
   },
 };
