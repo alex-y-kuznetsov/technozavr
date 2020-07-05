@@ -16,7 +16,6 @@
         v-bind:colorId.sync="filterColorId"
         v-bind:sizeId.sync="filterSizeId"
         v-bind:page.sync="page"
-        v-bind:all-products="allProducts"
         v-bind:products-by-size="productsBySize"
       />
 

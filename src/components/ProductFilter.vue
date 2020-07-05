@@ -110,9 +110,6 @@ export default {
     page: {
       type: Number,
     },
-    allProducts: {
-      type: Array,
-    },
     productsBySize: {
       type: Object,
     },

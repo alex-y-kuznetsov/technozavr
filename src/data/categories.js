@@ -1,7 +1,7 @@
 export default [
   {
     id: 1,
-    title: 'Зубныя щетки',
+    title: 'Зубные щетки',
   },
   {
     id: 2,
