@@ -71,34 +71,18 @@ export default {
         );
       }
       if (this.filterColorId) {
-        const localThis = this;
-        const productsWithColors = filteredProducts.filter(
-          (product) => product.colors,
+        filteredProducts = filteredProducts.filter(
+          (product) => product.colors && product.colors.some(
+            (color) => color.colorId === this.filterColorId,
+          ),
         );
-        const newArr = [];
-        productsWithColors.forEach((item) => {
-          item.colors.forEach((color) => {
-            if (color.colorId === localThis.filterColorId) {
-              newArr.push(item);
-            }
-          });
-        });
-        filteredProducts = newArr;
       }
       if (this.filterSizeId && this.filterSizeId.length) {
-        const localThis = this;
-        const productsWithSizes = filteredProducts.filter(
-          (product) => product.sizes,
+        filteredProducts = filteredProducts.filter(
+          (product) => product.sizes && product.sizes.some(
+            (size) => this.filterSizeId.includes(size.sizeId),
+          ),
         );
-        const newArr = [];
-        productsWithSizes.forEach((item) => {
-          item.sizes.forEach((size) => {
-            if (localThis.filterSizeId.includes(size.sizeId)) {
-              newArr.push(item);
-            }
-          });
-        });
-        filteredProducts = Array.from(new Set(newArr));
       }
       return filteredProducts;
     },
