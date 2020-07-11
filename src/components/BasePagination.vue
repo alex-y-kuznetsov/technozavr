@@ -76,32 +76,25 @@ export default {
       return pagesList;
     },
     croppedPagesList() {
-      const croppedPagesList = [];
-      // eslint-disable-next-line no-plusplus
-      for (let i = 0; i < this.pages.length; i++) {
-        const index = i + 1;
-        const pageItem = {
-          title: index,
-          index,
+      const localThis = this;
+      const croppedPagesList = this.pages.map((pageItem, index) => {
+        // eslint-disable-next-line no-param-reassign
+        pageItem = {
+          title: index + 1,
+          index: index + 1,
           disabled: false,
-          visible: this.isVisible(index),
+          visible: localThis.isVisible(index + 1),
         };
-        croppedPagesList.push(pageItem);
-      }
-      const pointsObj = {
-        title: '...',
-        index: Number,
-        disabled: true,
-        visible: true,
-      };
+        return pageItem;
+      });
       if (this.page > constants.PAGES_CROP_THRESHOLD && this.page !== croppedPagesList.length) {
         const cropThresholdJump = this.page === constants.PAGES_CROP_THRESHOLD + 1;
         const cropDelete = cropThresholdJump ? 0 : 1;
         const cropStart = cropThresholdJump ? this.page - 1 : this.page - 2;
-        croppedPagesList.splice(cropStart, cropDelete, pointsObj);
+        croppedPagesList.splice(cropStart, cropDelete, constants.POINTS_OBJ);
       }
       if (this.pages.length > constants.PAGES_CROP_THRESHOLD) {
-        croppedPagesList.splice((croppedPagesList.length - 1), 0, pointsObj);
+        croppedPagesList.splice((croppedPagesList.length - 1), 0, constants.POINTS_OBJ);
       }
       return croppedPagesList.filter((pageItem) => pageItem.visible);
     },
