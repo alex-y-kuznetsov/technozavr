@@ -1,6 +1,7 @@
 <template>
   <div>
-    <a class="catalog__pic" href="#">
+    <a class="catalog__pic" href="#"
+       v-on:click.prevent="$emit('goToPage', 'product', {id: product.id})">
       <img v-bind:src="product.image"
            v-bind:alt="product.title"
            v-bind:title="product.title" />
