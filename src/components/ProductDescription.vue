@@ -13,9 +13,7 @@
     <div v-for="description in product.descriptions"
          v-bind:key="description.type"
          v-show="shownDescription === description.type" class="item__content">
-      <p>
-        {{ description.text }}
-      </p>
+      <div v-html="description.text"></div>
     </div>
   </div>
 </template>
