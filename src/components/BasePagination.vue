@@ -104,7 +104,7 @@ export default {
       this.$emit('paginate', page);
     },
     scrollPage(direction) {
-      this.$emit('paginate', direction);
+      this.paginate(direction);
     },
     isVisible(index) {
       return index === this.page

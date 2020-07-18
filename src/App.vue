@@ -33,7 +33,7 @@ export default {
     },
   },
   created() {
-    eventBus.$on('goToPage', (pageName, pageParams) => this.goToPage(pageName, pageParams));
+    eventBus.$on('go-to-page', (pageName, pageParams) => this.goToPage(pageName, pageParams));
   },
   components: { MainPage, ProductPage, NotFoundPage },
 };
