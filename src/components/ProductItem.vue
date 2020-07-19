@@ -1,14 +1,14 @@
 <template>
   <div>
     <a class="catalog__pic" href="#"
-       v-on:click.prevent="goToPage('product', {id: product.id})">
+       v-on:click.prevent="emitProductClick()">
       <img v-bind:src="product.image"
            v-bind:alt="product.title"
            v-bind:title="product.title" />
     </a>
 
     <h3 class="catalog__title">
-      <a href="#">{{ product.title }}</a>
+      <a href="#" v-on:click.prevent="emitProductClick()">{{ product.title }}</a>
     </h3>
 
     <span class="catalog__price">{{ product.price | numberFormat }} ₽</span>
@@ -50,12 +50,13 @@
 </template>
 
 <script>
-import goToPage from '@/helpers/goToPage';
 import numberFormat from '@/helpers/numberFormat';
 
 export default {
   methods: {
-    goToPage,
+    emitProductClick() {
+      this.$emit('product-click');
+    },
   },
   props: {
     product: {
