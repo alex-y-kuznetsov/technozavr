@@ -14,19 +14,27 @@
         >{{ description.title }}</a>
       </li>
     </ul>
-    <!--     <div v-for="description in product.descriptions"
-         v-bind:key="description.type"
-         v-show="shownDescription === description.type" class="item__content">
-      <div v-html="description.text"></div>
-    </div>-->
-    <component v-bind:is="currentShownDescription.component" />
+    <component v-if="product.descriptions"
+               v-bind:product="product"
+               v-bind:is="getTabComponentName(shownDescription)" />
+    <div v-else class="item__content"> Описания для данного товара отстутствуют</div>
   </div>
 </template>
 
 <script>
 import products from '@/data/products';
+import GeneralTab from '@/components/ProductDescriptionTabs/GeneralTab.vue';
+import CharacteristicsTab from '@/components/ProductDescriptionTabs/CharacteristicsTab.vue';
+import WarrantyTab from '@/components/ProductDescriptionTabs/WarrantyTab.vue';
+import PaymentTab from '@/components/ProductDescriptionTabs/PaymentTab.vue';
 
 export default {
+  components: {
+    GeneralTab,
+    CharacteristicsTab,
+    WarrantyTab,
+    PaymentTab,
+  },
   props: {
     pageParams: {
       type: Object,
@@ -35,7 +43,6 @@ export default {
   data() {
     return {
       product: {},
-      tabs: [],
       shownDescription: 'general',
     };
   },
@@ -46,23 +53,23 @@ export default {
     showDescription(type) {
       this.shownDescription = type;
     },
-    getDescriptionTabs() {
-      this.tabs = this.product.descriptions.map((description) => ({
-        name: description.type,
-        component: {
-          template: `<div>${description.text}</div>`,
-        },
-      }));
-    },
-  },
-  computed: {
-    currentShownDescription() {
-      return this.tabs.find((tab) => tab.name === this.shownDescription);
+    getTabComponentName(descriptionType) {
+      switch (descriptionType) {
+        case 'general':
+          return 'GeneralTab';
+        case 'characteristics':
+          return 'CharacteristicsTab';
+        case 'warranty':
+          return 'WarrantyTab';
+        case 'payment':
+          return 'PaymentTab';
+        default:
+          return 'GeneralTab';
+      }
     },
   },
   created() {
     this.product = this.getProductDescriptions();
-    this.getDescriptionTabs();
   },
 };
 </script>
