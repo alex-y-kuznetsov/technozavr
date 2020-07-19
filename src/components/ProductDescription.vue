@@ -17,7 +17,7 @@
     <component v-if="product.descriptions"
                v-bind:product="product"
                v-bind:is="getTabComponentName(shownDescription)" />
-    <div v-else class="item__content"> Описания для данного товара отстутствуют</div>
+    <div v-else class="item__content"> Описания для данного товара отсутствуют</div>
   </div>
 </template>
 
