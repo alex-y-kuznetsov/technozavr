@@ -27,6 +27,13 @@ import CharacteristicsTab from '@/components/ProductDescriptionTabs/Characterist
 import WarrantyTab from '@/components/ProductDescriptionTabs/WarrantyTab.vue';
 import PaymentTab from '@/components/ProductDescriptionTabs/PaymentTab.vue';
 
+const descriptionComponentsMap = {
+  general: 'GeneralTab',
+  characteristics: 'CharacteristicsTab',
+  warranty: 'WarrantyTab',
+  payment: 'PaymentTab',
+};
+
 export default {
   components: {
     GeneralTab,
@@ -53,18 +60,7 @@ export default {
       this.shownDescription = type;
     },
     getTabComponentName(descriptionType) {
-      switch (descriptionType) {
-        case 'general':
-          return 'GeneralTab';
-        case 'characteristics':
-          return 'CharacteristicsTab';
-        case 'warranty':
-          return 'WarrantyTab';
-        case 'payment':
-          return 'PaymentTab';
-        default:
-          return 'GeneralTab';
-      }
+      return descriptionComponentsMap[descriptionType];
     },
   },
 };
