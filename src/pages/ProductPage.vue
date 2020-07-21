@@ -95,7 +95,8 @@
           </form>
         </div>
       </div>
-      <ProductDescription v-bind:page-params="pageParams"/>
+      <ProductDescription v-bind:page-params="pageParams"
+                          v-bind:product-item="product"/>
     </section>
   </main>
 </template>
@@ -105,7 +106,7 @@ import products from '@/data/products';
 import categories from '@/data/categories';
 import ProductDescription from '@/components/ProductDescription.vue';
 import goToPage from '@/helpers/goToPage';
-import numberFormat from '@/helpers/numberFormat';
+import numberFormat from '@/helpers/filters/numberFormat';
 
 export default {
   components: { ProductDescription },

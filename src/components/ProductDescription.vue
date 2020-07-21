@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import products from '@/data/products';
 import GeneralTab from '@/components/ProductDescriptionTabs/GeneralTab.vue';
 import CharacteristicsTab from '@/components/ProductDescriptionTabs/CharacteristicsTab.vue';
 import WarrantyTab from '@/components/ProductDescriptionTabs/WarrantyTab.vue';
@@ -39,17 +38,17 @@ export default {
     pageParams: {
       type: Object,
     },
+    productItem: {
+      type: Object,
+    },
   },
   data() {
     return {
-      product: {},
+      product: this.productItem,
       shownDescription: 'general',
     };
   },
   methods: {
-    getProductDescriptions() {
-      return products.find((product) => product.id === this.pageParams.id);
-    },
     showDescription(type) {
       this.shownDescription = type;
     },
@@ -67,9 +66,6 @@ export default {
           return 'GeneralTab';
       }
     },
-  },
-  created() {
-    this.product = this.getProductDescriptions();
   },
 };
 </script>
