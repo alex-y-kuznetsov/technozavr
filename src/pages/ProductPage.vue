@@ -3,14 +3,14 @@
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
-          <a class="breadcrumbs__link" href="#" v-on:click.prevent="goToPage('main')">
+          <router-link class="breadcrumbs__link" v-bind:to="{name: 'main'}">
             Каталог
-          </a>
+          </router-link>
         </li>
         <li class="breadcrumbs__item">
-          <a class="breadcrumbs__link" href="#" v-on:click.prevent="goToPage('main')">
+          <router-link class="breadcrumbs__link" v-bind:to="{name: 'main'}">
             {{ category.title }}
-          </a>
+          </router-link>
         </li>
         <li class="breadcrumbs__item">
           <a class="breadcrumbs__link">
@@ -105,29 +105,33 @@
 import products from '@/data/products';
 import categories from '@/data/categories';
 import ProductDescription from '@/components/ProductDescription.vue';
-import goToPage from '@/helpers/goToPage';
 import numberFormat from '@/helpers/filters/numberFormat';
 
 export default {
   components: { ProductDescription },
-  props: {
-    pageParams: {
-      type: Object,
-    },
+  data() {
+    return {
+      pageParams: undefined,
+    };
   },
   filters: {
     numberFormat,
   },
   methods: {
-    goToPage,
+    getPageParams() {
+      this.pageParams = this.$router.currentRoute.params;
+    },
   },
   computed: {
     product() {
-      return products.find((product) => product.id === this.pageParams.id);
+      return products.find((product) => product.id === +this.$route.params.id);
     },
     category() {
       return categories.find((category) => category.id === this.product.categoryId);
     },
+  },
+  created() {
+    this.getPageParams();
   },
 };
 </script>
