@@ -7,21 +7,15 @@
 
     <div class="content__catalog">
       <ProductFilter
-        v-bind:price-from.sync="filterPriceFrom"
-        v-bind:price-to.sync="filterPriceTo"
-        v-bind:category.sync="filterCategoryId"
-        v-bind:colorId.sync="filterColorId"
-        v-bind:sizeId.sync="filterSizeId"
-        v-bind:page.sync="page"
-        v-bind:products-by-size="productsBySize"
+        v-bind.sync="filters"
       />
 
       <section class="catalog">
         <ProductList v-bind:products="products" />
         <BasePagination
-          v-model="page"
+          v-model="filters.page"
           v-bind:count="countProducts"
-          v-bind:per-page="productsPerPage"
+          v-bind:per-page="filters.productsPerPage"
         />
       </section>
     </div>
@@ -38,57 +32,57 @@ export default {
   components: { ProductList, BasePagination, ProductFilter },
   data() {
     return {
-      filterPriceFrom: 0,
-      filterPriceTo: 0,
-      filterCategoryId: 0,
-      filterColorId: 0,
-      filterSizeId: [],
-      page: 1,
-      productsPerPage: 2,
-      productsBySize: {},
+      filters: {
+        filterPriceFrom: 0,
+        filterPriceTo: 0,
+        filterCategoryId: 0,
+        filterColorId: 0,
+        filterSizeId: [],
+        page: 1,
+        productsPerPage: 2,
+        productsBySize: {},
+      },
+      allProducts: products,
     };
   },
   computed: {
     filteredProducts() {
       let filteredProducts = products;
-      if (this.filterPriceFrom > 0) {
+      if (this.filters.filterPriceFrom > 0) {
         filteredProducts = filteredProducts.filter(
-          (product) => product.price > this.filterPriceFrom,
+          (product) => product.price > this.filters.filterPriceFrom,
         );
       }
-      if (this.filterPriceTo > 0) {
+      if (this.filters.filterPriceTo > 0) {
         filteredProducts = filteredProducts.filter(
-          (product) => product.price < this.filterPriceTo,
+          (product) => product.price < this.filters.filterPriceTo,
         );
       }
-      if (this.filterCategoryId) {
+      if (this.filters.filterCategoryId) {
         filteredProducts = filteredProducts.filter(
-          (product) => product.categoryId === this.filterCategoryId,
+          (product) => product.categoryId === this.filters.filterCategoryId,
         );
       }
-      if (this.filterColorId) {
+      if (this.filters.filterColorId) {
         filteredProducts = filteredProducts.filter(
           (product) => product.colors && product.colors.some(
-            (color) => color.colorId === this.filterColorId,
+            (color) => color.colorId === this.filters.filterColorId,
           ),
         );
       }
-      if (this.filterSizeId && this.filterSizeId.length) {
+      if (this.filters.filterSizeId && this.filters.filterSizeId.length) {
         filteredProducts = filteredProducts.filter(
           (product) => product.sizes && product.sizes.some(
-            (size) => this.filterSizeId.includes(size.sizeId),
+            (size) => this.filters.filterSizeId.includes(size.sizeId),
           ),
         );
       }
       return filteredProducts;
     },
     products() {
-      const offset = (this.page - 1) * this.productsPerPage;
+      const offset = (this.filters.page - 1) * this.filters.productsPerPage;
 
-      return this.filteredProducts.slice(offset, offset + this.productsPerPage);
-    },
-    allProducts() {
-      return products;
+      return this.filteredProducts.slice(offset, offset + this.filters.productsPerPage);
     },
     countProducts() {
       return this.filteredProducts.length;
@@ -108,7 +102,7 @@ export default {
         const uniqueCount = sizes.filter((size) => size === uniqueSize).length;
         result[uniqueSize] = uniqueCount;
       });
-      this.productsBySize = result;
+      this.filters.productsBySize = result;
     },
   },
   mounted() {

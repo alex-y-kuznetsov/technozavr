@@ -95,19 +95,19 @@ export default {
     };
   },
   props: {
-    priceFrom: {
+    filterPriceFrom: {
       type: Number,
     },
-    priceTo: {
+    filterPriceTo: {
       type: Number,
     },
-    category: {
+    filterCategoryId: {
       type: Number,
     },
-    colorId: {
+    filterColorId: {
       type: Number,
     },
-    sizeId: {
+    filterSizeId: {
       type: Array,
     },
     page: {
@@ -118,38 +118,38 @@ export default {
     },
   },
   watch: {
-    priceFrom(value) {
+    filterPriceFrom(value) {
       this.currentPriceFrom = value;
     },
-    priceTo(value) {
+    filterPriceTo(value) {
       this.currentPriceTo = value;
     },
-    category(value) {
+    filterCategoryId(value) {
       this.currentCategoryId = value;
     },
-    colorId(value) {
+    filterColorId(value) {
       this.currentColorId = value;
     },
-    sizeId(value) {
+    filterSizeId(value) {
       this.currentSizeId = value;
     },
   },
   methods: {
     submit() {
       this.$emit('update:page', 1);
-      this.$emit('update:priceFrom', this.currentPriceFrom);
-      this.$emit('update:priceTo', this.currentPriceTo);
-      this.$emit('update:category', this.currentCategoryId);
-      this.$emit('update:colorId', this.currentColorId);
-      this.$emit('update:sizeId', this.currentSizeId);
+      this.$emit('update:filterPriceFrom', this.currentPriceFrom);
+      this.$emit('update:filterPriceTo', this.currentPriceTo);
+      this.$emit('update:filterCategoryId', this.currentCategoryId);
+      this.$emit('update:filterColorId', this.currentColorId);
+      this.$emit('update:filterSizeId', this.currentSizeId);
     },
     reset() {
       this.$emit('update:page', 1);
-      this.$emit('update:priceFrom', 0);
-      this.$emit('update:priceTo', 0);
-      this.$emit('update:category', 0);
-      this.$emit('update:colorId', 0);
-      this.$emit('update:sizeId', []);
+      this.$emit('update:filterPriceFrom', 0);
+      this.$emit('update:filterPriceTo', 0);
+      this.$emit('update:filterCategoryId', 0);
+      this.$emit('update:filterColorId', 0);
+      this.$emit('update:filterSizeId', []);
     },
   },
 };
