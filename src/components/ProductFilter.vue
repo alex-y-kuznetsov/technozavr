@@ -89,6 +89,9 @@ export default {
       currentCategoryId: 0,
       currentColorId: 0,
       currentSizeId: [],
+      categories,
+      colors,
+      sizes,
     };
   },
   props: {
@@ -112,17 +115,6 @@ export default {
     },
     productsBySize: {
       type: Object,
-    },
-  },
-  computed: {
-    categories() {
-      return categories;
-    },
-    colors() {
-      return colors;
-    },
-    sizes() {
-      return sizes;
     },
   },
   watch: {
