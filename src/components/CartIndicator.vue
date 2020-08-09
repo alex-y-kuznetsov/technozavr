@@ -7,7 +7,7 @@
     <svg width="30" height="21" fill="currentColor">
       <use xlink:href="#icon-cart" />
     </svg>
-    <span class="header__count"
+    <span v-if="$store.state.cartProducts.length" class="header__count"
           aria-label="Количество товаров">{{ $store.state.cartProducts.length }}</span>
   </router-link>
 </template>

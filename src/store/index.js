@@ -5,11 +5,19 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    cartProducts: [
-      {
-        productId: 1,
-        amount: 2,
-      },
-    ],
+    cartProducts: [],
+  },
+  mutations: {
+    addProductToCart(state, { productId, amount }) {
+      const item = state.cartProducts.find((cartProduct) => cartProduct.productId === productId);
+      if (item) {
+        item.amount += amount;
+      } else {
+        state.cartProducts.push({
+          productId,
+          amount,
+        });
+      }
+    },
   },
 });
