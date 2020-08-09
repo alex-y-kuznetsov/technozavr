@@ -36,7 +36,7 @@
           {{ product.title }}
         </h2>
         <div class="item__form">
-          <form class="form" action="#" method="POST" @submit.prevent="addToCart">
+          <form class="form" action="#" method="POST" v-on:submit.prevent="addToCart">
             <b class="item__price">
               {{ product.price | numberFormat }} ₽
             </b>
@@ -73,7 +73,8 @@
 
             <div class="item__row">
               <div class="form__counter">
-                <button type="button" aria-label="Убрать один товар">
+                <button type="button" aria-label="Убрать один товар"
+                v-on:click="productAmount > 0 ? productAmount-- : productAmount = 0">
                   <svg width="12" height="12" fill="currentColor">
                     <use xlink:href="#icon-minus"></use>
                   </svg>
@@ -81,7 +82,7 @@
 
                 <input type="text" value="1" v-model.number="productAmount" name="count">
 
-                <button type="button" aria-label="Добавить один товар">
+                <button type="button" aria-label="Добавить один товар" v-on:click="productAmount++">
                   <svg width="12" height="12" fill="currentColor">
                     <use xlink:href="#icon-plus"></use>
                   </svg>
