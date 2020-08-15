@@ -1,5 +1,5 @@
 <template>
-  <li class="cart__item product">
+  <li class="cart__item product" v-on:click="emitProductClick()">
     <div class="product__pic">
       <img
         v-bind:src="cartItem.product.image"
@@ -52,6 +52,9 @@ export default {
   },
   methods: {
     ...mapMutations({ deteteProduct: 'deleteCartProduct' }),
+    emitProductClick() {
+      this.$emit('product-click');
+    },
   },
   computed: {
     productAmount: {

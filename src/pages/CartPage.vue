@@ -21,7 +21,10 @@
           <ul class="cart__list">
             <CartItem v-for="cartItem in cartProducts"
                       v-bind:key="cartItem.productId"
-                      v-bind:cart-item="cartItem"/>
+                      v-bind:cart-item="cartItem"
+                      v-on:product-click="$router.push({
+                        name: 'product', params: {id: cartItem.productId}
+                        })"/>
           </ul>
         </div>
 

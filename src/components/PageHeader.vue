@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div class="header__wrapper container">
-      <span class="header__info">Каталог</span>
+      <span class="header__info">{{ pageName }}</span>
 
       <router-link class="header__logo" v-bind:to="{name: 'main'}">
         <img
@@ -24,5 +24,10 @@ import CartIndicator from '@/components/CartIndicator.vue';
 
 export default {
   components: { CartIndicator },
+  props: {
+    pageName: {
+      type: String,
+    },
+  },
 };
 </script>
