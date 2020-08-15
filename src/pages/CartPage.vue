@@ -19,52 +19,9 @@
       <form class="cart__form form" action="#" method="POST">
         <div class="cart__field">
           <ul class="cart__list">
-            <li
-              class="cart__item product"
-              v-for="cartItem in cartProducts"
-              v-bind:key="cartItem.productId"
-            >
-              <div class="product__pic">
-                <img
-                  v-bind:src="cartItem.product.image"
-                  width="120"
-                  height="120"
-                  v-bind:alt="cartItem.product.title"
-                />
-              </div>
-              <h3 class="product__title">{{ cartItem.product.title }}</h3>
-              <span class="product__code">Артикул: {{ cartItem.product.id }}</span>
-
-              <div class="product__counter form__counter">
-                <button type="button" aria-label="Убрать один товар">
-                  <svg width="10" height="10" fill="currentColor">
-                    <use xlink:href="#icon-minus" />
-                  </svg>
-                </button>
-
-                <input type="text" value="1" v-model="cartItem.amount" name="count" />
-
-                <button type="button" aria-label="Добавить один товар">
-                  <svg width="10" height="10" fill="currentColor">
-                    <use xlink:href="#icon-plus" />
-                  </svg>
-                </button>
-              </div>
-
-              <b
-                class="product__price"
-              >{{ (cartItem.product.price * cartItem.amount) | numberFormat }} ₽</b>
-
-              <button
-                class="product__del button-del"
-                type="button"
-                aria-label="Удалить товар из корзины"
-              >
-                <svg width="20" height="20" fill="currentColor">
-                  <use xlink:href="#icon-close" />
-                </svg>
-              </button>
-            </li>
+            <CartItem v-for="cartItem in cartProducts"
+                      v-bind:key="cartItem.productId"
+                      v-bind:cart-item="cartItem"/>
           </ul>
         </div>
 
@@ -85,8 +42,10 @@
 <script>
 import numberFormat from '@/helpers/filters/numberFormat';
 import { mapGetters } from 'vuex';
+import CartItem from '@/components/CartItem.vue';
 
 export default {
+  components: { CartItem },
   filters: { numberFormat },
   computed: {
     ...mapGetters({ cartProducts: 'cartDetailProducts', totalPrice: 'cartTotalPrice' }),

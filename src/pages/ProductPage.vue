@@ -74,7 +74,7 @@
             <div class="item__row">
               <div class="form__counter">
                 <button type="button" aria-label="Убрать один товар"
-                v-on:click="productAmount > 0 ? productAmount-- : productAmount = 0">
+                        v-on:click="productAmount > 0 ? productAmount-- : productAmount = 0">
                   <svg width="12" height="12" fill="currentColor">
                     <use xlink:href="#icon-minus"></use>
                   </svg>
