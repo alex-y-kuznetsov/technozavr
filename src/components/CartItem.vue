@@ -13,7 +13,8 @@
 
     <div class="product__counter form__counter">
       <button type="button" aria-label="Убрать один товар"
-              v-on:click="productAmount > 0 ? productAmount-- : productAmount = 0">
+              v-on:click.stop="productAmount > 1 ?
+              productAmount-- : deteteProduct(cartItem.productId)">
         <svg width="10" height="10" fill="currentColor">
           <use xlink:href="#icon-minus" />
         </svg>
@@ -21,7 +22,7 @@
 
       <input type="text" value="1" v-model.number="productAmount" name="count" />
 
-      <button type="button" aria-label="Добавить один товар" v-on:click="productAmount++">
+      <button type="button" aria-label="Добавить один товар" v-on:click.stop="productAmount++">
         <svg width="10" height="10" fill="currentColor">
           <use xlink:href="#icon-plus" />
         </svg>

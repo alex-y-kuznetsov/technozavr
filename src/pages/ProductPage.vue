@@ -132,6 +132,11 @@ export default {
         },
       );
     },
+    checkCorrectRoute() {
+      if (!this.product) {
+        this.$router.push({ name: 'notFound' });
+      }
+    },
   },
   computed: {
     product() {
@@ -143,6 +148,9 @@ export default {
   },
   created() {
     this.getPageParams();
+  },
+  updated() {
+    this.checkCorrectRoute();
   },
 };
 </script>
