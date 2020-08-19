@@ -19,43 +19,7 @@
         </li>
       </ul>
 
-      <ul class="footer__social social">
-        <li class="social__item">
-          <a class="social__link" href="#" aria-label="Вконтакте">
-            <svg width="20" height="11" fill="currentColor">
-              <use xlink:href="#icon-vk" />
-            </svg>
-          </a>
-        </li>
-        <li class="social__item">
-          <a class="social__link" href="#" aria-label="Инстаграм">
-            <svg width="17" height="17" fill="currentColor">
-              <use xlink:href="#icon-insta" />
-            </svg>
-          </a>
-        </li>
-        <li class="social__item">
-          <a class="social__link" href="#" aria-label="Facebook">
-            <svg width="17" height="17" fill="currentColor">
-              <use xlink:href="#icon-facebook" />
-            </svg>
-          </a>
-        </li>
-        <li class="social__item">
-          <a class="social__link" href="#" aria-label="Twitter">
-            <svg width="17" height="14" fill="currentColor">
-              <use xlink:href="#icon-twitter" />
-            </svg>
-          </a>
-        </li>
-        <li class="social__item">
-          <a class="social__link" href="#" aria-label="Telegram">
-            <svg width="19" height="17" fill="currentColor">
-              <use xlink:href="#icon-telegram" />
-            </svg>
-          </a>
-        </li>
-      </ul>
+      <SocialLinks />
 
       <p class="footer__desc">
         Все права на&nbsp;материалы, находящиеся на&nbsp;сайте,
@@ -90,7 +54,9 @@
 </template>
 
 <script>
-export default {
+import SocialLinks from '@/components/SocialLinks.vue';
 
+export default {
+  components: { SocialLinks },
 };
 </script>
