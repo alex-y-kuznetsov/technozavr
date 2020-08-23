@@ -47,98 +47,28 @@ export default {
   },
   computed: {
     filteredProducts() {
-      let filteredProducts = products;
-      if (this.filters.filterPriceFrom > 0) {
-        filteredProducts = filteredProducts.filter(
-          (product) => product.price > this.filters.filterPriceFrom,
-        );
-      }
-      if (this.filters.filterPriceTo > 0) {
-        filteredProducts = filteredProducts.filter(
-          (product) => product.price < this.filters.filterPriceTo,
-        );
-      }
-      if (this.filters.filterCategoryId) {
-        filteredProducts = filteredProducts.filter(
-          (product) => product.categoryId === this.filters.filterCategoryId,
-        );
-      }
-      if (this.filters.filterColorId) {
-        filteredProducts = filteredProducts.filter(
-          (product) => product.colors && product.colors.some(
-            (color) => color.colorId === this.filters.filterColorId,
-          ),
-        );
-      }
-      if (this.filters.filterSizeId && this.filters.filterSizeId.length) {
-        filteredProducts = filteredProducts.filter(
-          (product) => product.sizes && product.sizes.some(
-            (size) => this.filters.filterSizeId.includes(size.sizeId),
-          ),
-        );
-      }
-      return filteredProducts;
+      const {
+        filterPriceFrom, filterPriceTo, filterCategoryId, filterColorId, filterSizeId,
+      } = this.filters;
+      const applyFilterPriceFrom = ({ price }, _, arr) => (
+        filterPriceFrom > 0 ? price > filterPriceFrom : arr);
+      const applyFilterPriceTo = ({ price }, _, arr) => (
+        filterPriceTo > 0 ? price < filterPriceTo : arr);
+      const applyFilterCategoryId = ({ categoryId }, _, arr) => (
+        filterCategoryId ? categoryId === filterCategoryId : arr);
+      const applyFilterColorId = ({ colors }, _, arr) => (
+        filterColorId ? colors && colors.some((color) => color.colorId === filterColorId) : arr);
+      const applyFilterSizeId = ({ sizes }, _, arr) => (
+        filterSizeId && filterSizeId.length
+          ? sizes && sizes.some((size) => filterSizeId.includes(size.sizeId)) : arr);
+      const filteringFunctions = [
+        applyFilterPriceFrom,
+        applyFilterPriceTo,
+        applyFilterCategoryId,
+        applyFilterColorId,
+        applyFilterSizeId];
+      return filteringFunctions.reduce((acc, curr) => acc.filter(curr), products);
     },
-    // filteredProductsNew() {
-    //   let filteredProducts = products;
-
-    //   const func1 = (this.filters.filterPriceFrom) => {
-    //     return this.filters.filterPriceFrom > 0;
-    //   };
-    //   const func2 = (this.filters.filterPriceTo) => {
-    //     return this.filters.filterPriceTo > 0;
-    //   };
-    //   const func3 = (this.filters.filterCategoryId) => {
-    //     return this.filters.filterPriceTo === true;
-    //   };
-    //   const func4 = (this.filters.filterColorId) => {
-    //     return this.filters.filterColorId === true;
-    //   };
-    //   const func5 = (this.filters.filterSizeId) => {
-    //     return this.filters.filterSizeId === true && this.filters.filterSizeId.length === true;
-    //   };
-
-    //   const functionsList = [func1, func2, func3, func4, func5];
-
-    //   const arr = [
-    //     {
-    //       filteredProducts = filteredProducts.filter(
-    //         (product) => product.price > this.filters.filterPriceFrom,
-    //       )
-    //     },
-    //     {
-    //       filteredProducts = filteredProducts.filter(
-    //         (product) => product.price < this.filters.filterPriceTo,
-    //     )
-    //     }, {
-    //       filteredProducts = filteredProducts.filter(
-    //         (product) => product.categoryId === this.filters.filterCategoryId,
-    //       )
-    //     }, {
-    //       filteredProducts = filteredProducts.filter(
-    //       (product) => product.colors && product.colors.some(
-    //         (color) => color.colorId === this.filters.filterColorId,
-    //       ),
-    //     )
-    //     }, {
-    //       filteredProducts = filteredProducts.filter(
-    //       (product) => product.colors && product.colors.some(
-    //         (color) => color.colorId === this.filters.filterColorId,
-    //       ),
-    //     )
-    //     }, {
-    //       filteredProducts = filteredProducts.filter(
-    //       (product) => product.sizes && product.sizes.some(
-    //         (size) => this.filters.filterSizeId.includes(size.sizeId),
-    //       ),
-    //     )
-    //     }
-    //   ];
-
-    //   const filteredProducts = functionsList.reduce((acc, curr) => acc.filter(curr), arr);
-
-    //   return filteredProducts;
-    // },
     products() {
       const offset = (this.filters.page - 1) * this.filters.productsPerPage;
 
