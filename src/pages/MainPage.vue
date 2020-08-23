@@ -79,6 +79,66 @@ export default {
       }
       return filteredProducts;
     },
+    // filteredProductsNew() {
+    //   let filteredProducts = products;
+
+    //   const func1 = (this.filters.filterPriceFrom) => {
+    //     return this.filters.filterPriceFrom > 0;
+    //   };
+    //   const func2 = (this.filters.filterPriceTo) => {
+    //     return this.filters.filterPriceTo > 0;
+    //   };
+    //   const func3 = (this.filters.filterCategoryId) => {
+    //     return this.filters.filterPriceTo === true;
+    //   };
+    //   const func4 = (this.filters.filterColorId) => {
+    //     return this.filters.filterColorId === true;
+    //   };
+    //   const func5 = (this.filters.filterSizeId) => {
+    //     return this.filters.filterSizeId === true && this.filters.filterSizeId.length === true;
+    //   };
+
+    //   const functionsList = [func1, func2, func3, func4, func5];
+
+    //   const arr = [
+    //     {
+    //       filteredProducts = filteredProducts.filter(
+    //         (product) => product.price > this.filters.filterPriceFrom,
+    //       )
+    //     },
+    //     {
+    //       filteredProducts = filteredProducts.filter(
+    //         (product) => product.price < this.filters.filterPriceTo,
+    //     )
+    //     }, {
+    //       filteredProducts = filteredProducts.filter(
+    //         (product) => product.categoryId === this.filters.filterCategoryId,
+    //       )
+    //     }, {
+    //       filteredProducts = filteredProducts.filter(
+    //       (product) => product.colors && product.colors.some(
+    //         (color) => color.colorId === this.filters.filterColorId,
+    //       ),
+    //     )
+    //     }, {
+    //       filteredProducts = filteredProducts.filter(
+    //       (product) => product.colors && product.colors.some(
+    //         (color) => color.colorId === this.filters.filterColorId,
+    //       ),
+    //     )
+    //     }, {
+    //       filteredProducts = filteredProducts.filter(
+    //       (product) => product.sizes && product.sizes.some(
+    //         (size) => this.filters.filterSizeId.includes(size.sizeId),
+    //       ),
+    //     )
+    //     }
+    //   ];
+
+    //   const filteredProducts = functionsList.reduce((acc, curr) => acc.filter(curr), arr);
+
+    //   return filteredProducts;
+    // },
     products() {
       const offset = (this.filters.page - 1) * this.filters.productsPerPage;
 
