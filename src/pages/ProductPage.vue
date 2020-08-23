@@ -146,11 +146,13 @@ export default {
       return categories.find((category) => category.id === this.product.categoryId);
     },
   },
+  watch: {
+    $route() {
+      this.checkCorrectRoute();
+    },
+  },
   created() {
     this.getPageParams();
-  },
-  updated() {
-    this.checkCorrectRoute();
   },
 };
 </script>
