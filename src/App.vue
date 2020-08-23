@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-bind:data-page="pageName">
     <PageHeader v-bind:page-name="pageName"/>
     <router-view />
     <PageFooter />
