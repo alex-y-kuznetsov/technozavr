@@ -49,6 +49,12 @@
   </div>
 </template>
 
+<style>
+  .catalog__pic img {
+    object-fit: contain;
+  }
+</style>
+
 <script>
 import numberFormat from '@/helpers/filters/numberFormat';
 

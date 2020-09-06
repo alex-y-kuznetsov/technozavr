@@ -27,6 +27,7 @@ import products from '@/data/products';
 import ProductList from '@/components/ProductList.vue';
 import BasePagination from '@/components/BasePagination.vue';
 import ProductFilter from '@/components/ProductFilter.vue';
+import axios from 'axios';
 
 export default {
   components: { ProductList, BasePagination, ProductFilter },
@@ -39,9 +40,10 @@ export default {
         filterColorId: 0,
         filterSizeId: [],
         page: 1,
-        productsPerPage: 2,
+        productsPerPage: 3,
         productsBySize: {},
       },
+      productsData: null,
       allProducts: products,
     };
   },
@@ -73,12 +75,14 @@ export default {
       return filteringFunctions.reduce((acc, curr) => acc.filter(curr), products);
     },
     products() {
-      const offset = (this.filters.page - 1) * this.filters.productsPerPage;
-
-      return this.filteredProducts.slice(offset, offset + this.filters.productsPerPage);
+      return this.productsData
+        ? this.productsData.items.map((product) => ({
+          ...product,
+          image: product.image.file.url,
+        })) : [];
     },
     countProducts() {
-      return this.filteredProducts.length;
+      return this.productsData ? this.productsData.pagination.total : 0;
     },
   },
   methods: {
@@ -97,6 +101,19 @@ export default {
       });
       this.filters.productsBySize = result;
     },
+    loadProducts() {
+      axios.get(`http://vue-study.dev.creonit.ru/api/products?page=${this.filters.page}&limit=${this.filters.productsPerPage}`)
+        // eslint-disable-next-line no-return-assign
+        .then((response) => this.productsData = response.data);
+    },
+  },
+  watch: {
+    'filters.page': function watchPage() {
+      this.loadProducts();
+    },
+  },
+  created() {
+    this.loadProducts();
   },
   mounted() {
     this.countProductsBySize();
