@@ -50,17 +50,20 @@ export default {
       const {
         filterPriceFrom, filterPriceTo, filterCategoryId, filterColorId, filterSizeId,
       } = this.filters;
-      const applyFilterPriceFrom = ({ price }, _, arr) => (
-        filterPriceFrom > 0 ? price > filterPriceFrom : arr);
-      const applyFilterPriceTo = ({ price }, _, arr) => (
-        filterPriceTo > 0 ? price < filterPriceTo : arr);
-      const applyFilterCategoryId = ({ categoryId }, _, arr) => (
-        filterCategoryId ? categoryId === filterCategoryId : arr);
-      const applyFilterColorId = ({ colors }, _, arr) => (
-        filterColorId ? colors && colors.some((color) => color.colorId === filterColorId) : arr);
-      const applyFilterSizeId = ({ sizes }, _, arr) => (
-        filterSizeId && filterSizeId.length
-          ? sizes && sizes.some((size) => filterSizeId.includes(size.sizeId)) : arr);
+      const applyFilterPriceFrom = (product, _, arr) => (
+        filterPriceFrom > 0 ? product.price > filterPriceFrom : arr);
+      const applyFilterPriceTo = (product, _, arr) => (
+        filterPriceTo > 0 ? product.price < filterPriceTo : arr);
+      const applyFilterCategoryId = (product, _, arr) => (
+        filterCategoryId ? product.categoryId === filterCategoryId : arr);
+      const applyFilterColorId = (product, _, arr) => (
+        filterColorId ? product.colors && product.colors.some(
+          (color) => color.colorId === filterColorId,
+        ) : arr);
+      const applyFilterSizeId = (product, _, arr) => (
+        filterSizeId && filterSizeId.length ? product.sizes && product.sizes.some(
+          (size) => filterSizeId.includes(size.sizeId),
+        ) : arr);
       const filteringFunctions = [
         applyFilterPriceFrom,
         applyFilterPriceTo,
