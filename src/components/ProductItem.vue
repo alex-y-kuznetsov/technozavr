@@ -18,15 +18,14 @@
           v-bind:key="index"
           v-bind:title="color.name"
           class="colors__item">
-        <label class="colors__label">
+        <label class="colors__label" v-bind:title="color.title">
           <input
             class="colors__radio sr-only"
             type="radio"
             v-bind:name="'color-' + (productIndex + 1)"
-            v-bind:value="color.hash"
-            v-bind:checked="color.checked"
-          />
-          <span class="colors__value" v-bind:style="{ 'background-color': color.hash }"></span>
+            v-bind:value="color.code"
+            v-bind:checked="color.checked"          />
+          <span class="colors__value" v-bind:style="{ 'background-color': color.code }"></span>
         </label>
       </li>
     </ul>

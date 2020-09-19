@@ -23,11 +23,11 @@
 </template>
 
 <script>
-import products from '@/data/products';
 import ProductList from '@/components/ProductList.vue';
 import BasePagination from '@/components/BasePagination.vue';
 import ProductFilter from '@/components/ProductFilter.vue';
 import axios from 'axios';
+import { API_BASE_URL } from '../config';
 
 export default {
   components: { ProductList, BasePagination, ProductFilter },
@@ -44,36 +44,10 @@ export default {
         productsBySize: {},
       },
       productsData: null,
-      allProducts: products,
+      allProducts: [],
     };
   },
   computed: {
-    filteredProducts() {
-      const {
-        filterPriceFrom, filterPriceTo, filterCategoryId, filterColorId, filterSizeId,
-      } = this.filters;
-      const applyFilterPriceFrom = (product, _, arr) => (
-        filterPriceFrom > 0 ? product.price > filterPriceFrom : arr);
-      const applyFilterPriceTo = (product, _, arr) => (
-        filterPriceTo > 0 ? product.price < filterPriceTo : arr);
-      const applyFilterCategoryId = (product, _, arr) => (
-        filterCategoryId ? product.categoryId === filterCategoryId : arr);
-      const applyFilterColorId = (product, _, arr) => (
-        filterColorId ? product.colors && product.colors.some(
-          (color) => color.colorId === filterColorId,
-        ) : arr);
-      const applyFilterSizeId = (product, _, arr) => (
-        filterSizeId && filterSizeId.length ? product.sizes && product.sizes.some(
-          (size) => filterSizeId.includes(size.sizeId),
-        ) : arr);
-      const filteringFunctions = [
-        applyFilterPriceFrom,
-        applyFilterPriceTo,
-        applyFilterCategoryId,
-        applyFilterColorId,
-        applyFilterSizeId];
-      return filteringFunctions.reduce((acc, curr) => acc.filter(curr), products);
-    },
     products() {
       return this.productsData
         ? this.productsData.items.map((product) => ({
@@ -102,21 +76,49 @@ export default {
       this.filters.productsBySize = result;
     },
     loadProducts() {
-      axios.get(`http://vue-study.dev.creonit.ru/api/products?page=${this.filters.page}&limit=${this.filters.productsPerPage}`)
+      clearTimeout(this.loadProductsTimer);
+      this.loadProductsTimer = setTimeout(() => {
+        axios.get(`${API_BASE_URL}/api/products`, {
+          params: {
+            page: this.filters.page,
+            limit: this.filters.productsPerPage,
+            categoryId: this.filters.filterCategoryId,
+            colorId: this.filters.filterColorId,
+            minPrice: this.filters.filterPriceFrom,
+            maxPrice: this.filters.filterPriceTo,
+          },
+        })
         // eslint-disable-next-line no-return-assign
-        .then((response) => this.productsData = response.data);
+          .then((response) => this.productsData = response.data);
+      }, 0);
+    },
+    loadAllProducts() {
+      axios.get(`${API_BASE_URL}/api/products`)
+        // eslint-disable-next-line no-return-assign
+        .then((response) => this.allProducts = response.data.items)
+        .then(this.countProductsBySize());
     },
   },
   watch: {
     'filters.page': function watchPage() {
       this.loadProducts();
     },
+    'filters.filterPriceFrom': function watchPriceFrom() {
+      this.loadProducts();
+    },
+    'filters.filterPriceTo': function watchPriceTo() {
+      this.loadProducts();
+    },
+    'filters.filterCategoryId': function watchCategoryId() {
+      this.loadProducts();
+    },
+    'filters.filterColorId': function watchColorId() {
+      this.loadProducts();
+    },
   },
   created() {
     this.loadProducts();
-  },
-  mounted() {
-    this.countProductsBySize();
+    this.loadAllProducts();
   },
 };
 </script>
