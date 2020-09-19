@@ -1,6 +1,6 @@
 <template>
-  <li class="cart__item product" v-on:click="emitProductClick()">
-    <div class="product__pic">
+  <li class="cart__item product">
+    <div class="product__pic" v-on:click="emitProductClick()">
       <img
         v-bind:src="cartItem.product.image"
         width="120"
@@ -8,13 +8,13 @@
         v-bind:alt="cartItem.product.title"
       />
     </div>
-    <h3 class="product__title">{{ cartItem.product.title }}</h3>
+    <h3 class="product__title" v-on:click="emitProductClick()">{{ cartItem.product.title }}</h3>
     <span class="product__code">Артикул: {{ cartItem.product.id }}</span>
 
     <div class="product__counter form__counter">
       <button type="button" aria-label="Убрать один товар"
               v-on:click.stop="productAmount > 1 ?
-              productAmount-- : deteteProduct(cartItem.productId)">
+              productAmount-- : deleteProduct(cartItem.productId)">
         <svg width="10" height="10" fill="currentColor">
           <use xlink:href="#icon-minus" />
         </svg>
@@ -32,7 +32,7 @@
     <b class="product__price">{{ (cartItem.product.price * cartItem.amount) | numberFormat }} ₽</b>
 
     <button class="product__del button-del" type="button" aria-label="Удалить товар из корзины"
-            v-on:click.prevent="deteteProduct(cartItem.productId)">
+            v-on:click.prevent="deleteProduct(cartItem.productId)">
       <svg width="20" height="20" fill="currentColor">
         <use xlink:href="#icon-close" />
       </svg>
@@ -40,9 +40,15 @@
   </li>
 </template>
 
+<style scoped>
+.product__pic, .product__title {
+  cursor: pointer;
+}
+</style>
+
 <script>
 import numberFormat from '@/helpers/filters/numberFormat';
-import { mapMutations } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
   filters: { numberFormat },
@@ -52,7 +58,10 @@ export default {
     },
   },
   methods: {
-    ...mapMutations({ deteteProduct: 'deleteCartProduct' }),
+    ...mapActions(['deleteCartProduct']),
+    deleteProduct(productId) {
+      this.deleteCartProduct(productId);
+    },
     emitProductClick() {
       this.$emit('product-click');
     },
@@ -63,7 +72,7 @@ export default {
         return this.cartItem.amount;
       },
       set(value) {
-        this.$store.commit('updateCartProductAmount', { productId: this.cartItem.productId, amount: value });
+        this.$store.dispatch('updateCartProductAmount', { productId: this.cartItem.productId, amount: value });
       },
     },
   },
