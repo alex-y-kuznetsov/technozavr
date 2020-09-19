@@ -11,6 +11,11 @@
       />
 
       <section class="catalog">
+        <div v-if="productsLoading">Загрузка товаров...</div>
+        <div v-if="productsLoadingFailed">
+          <div>Произошла ошибка при загрузке товаров</div>
+          <button v-on:click.prevent="loadProducts">Попробовать еще раз</button>
+          </div>
         <ProductList v-bind:products="products" />
         <BasePagination
           v-model="filters.page"
@@ -45,6 +50,8 @@ export default {
       },
       productsData: null,
       allProducts: [],
+      productsLoading: false,
+      productsLoadingFailed: false,
     };
   },
   computed: {
@@ -76,6 +83,8 @@ export default {
       this.filters.productsBySize = result;
     },
     loadProducts() {
+      this.productsLoading = true;
+      this.productsLoadingFailed = false;
       clearTimeout(this.loadProductsTimer);
       this.loadProductsTimer = setTimeout(() => {
         axios.get(`${API_BASE_URL}/api/products`, {
@@ -89,7 +98,11 @@ export default {
           },
         })
         // eslint-disable-next-line no-return-assign
-          .then((response) => this.productsData = response.data);
+          .then((response) => this.productsData = response.data)
+          // eslint-disable-next-line no-return-assign
+          .catch(() => this.productsLoadingFailed = true)
+          // eslint-disable-next-line no-return-assign
+          .then(() => this.productsLoading = false);
       }, 0);
     },
     loadAllProducts() {
