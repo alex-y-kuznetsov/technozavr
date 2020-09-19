@@ -15,7 +15,7 @@
         <div v-if="productsLoadingFailed">
           <div>Произошла ошибка при загрузке товаров</div>
           <button v-on:click.prevent="loadProducts">Попробовать еще раз</button>
-          </div>
+        </div>
         <ProductList v-bind:products="products" />
         <BasePagination
           v-model="filters.page"

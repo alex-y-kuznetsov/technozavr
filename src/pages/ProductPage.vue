@@ -1,5 +1,5 @@
 <template>
-  <main class="content container">
+  <main class="content container" v-if="productData">
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
@@ -9,7 +9,7 @@
         </li>
         <li class="breadcrumbs__item">
           <router-link class="breadcrumbs__link" v-bind:to="{name: 'main'}">
-            {{ category.title }}
+            {{ product.category.title }}
           </router-link>
         </li>
         <li class="breadcrumbs__item">
@@ -25,7 +25,7 @@
         <div class="pics__wrapper">
           <img width="570"
           height="570"
-          v-bind:src="product.image"
+          v-bind:src="product.image.file.url"
           v-bind:alt="product.title">
         </div>
       </div>
@@ -44,11 +44,11 @@
             <fieldset v-if="product.colors" class="form__block">
               <legend class="form__legend">Цвет:</legend>
               <ul class="colors">
-                <li v-for="color in product.colors" v-bind:key="color.colorId" class="colors__item">
-                  <label class="colors__label">
+                <li v-for="color in product.colors" v-bind:key="color.id" class="colors__item">
+                  <label class="colors__label" v-bind:title="color.title">
                     <input class="colors__radio sr-only"
-                    type="radio" name="color-item" v-bind:value="color.name" checked="">
-                    <span class="colors__value" v-bind:style="{ 'background-color': color.hash }">
+                    type="radio" name="color-item" v-bind:value="color.title" checked="">
+                    <span class="colors__value" v-bind:style="{ 'background-color': color.code }">
                     </span>
                   </label>
                 </li>
@@ -100,13 +100,16 @@
                           v-bind:product-item="product"/>
     </section>
   </main>
+  <main class="content container" v-else-if="productLoading">Загрузка товара...</main>
+  <main class="content container"
+    v-else-if="productLoadingFailed">Произошла ошибка при загрузке</main>
 </template>
 
 <script>
-import products from '@/data/products';
-import categories from '@/data/categories';
 import ProductDescription from '@/components/ProductDescription.vue';
 import numberFormat from '@/helpers/filters/numberFormat';
+import axios from 'axios';
+import { API_BASE_URL } from '../config';
 
 export default {
   components: { ProductDescription },
@@ -114,6 +117,9 @@ export default {
     return {
       pageParams: undefined,
       productAmount: 1,
+      productData: null,
+      productLoading: false,
+      productLoadingFailed: false,
     };
   },
   filters: {
@@ -137,22 +143,37 @@ export default {
         this.$router.push({ name: 'notFound' });
       }
     },
+    loadProduct() {
+      this.productLoading = true;
+      this.productLoadingFailed = false;
+      axios.get(`${API_BASE_URL}/api/products/${this.$route.params.id}`)
+      // eslint-disable-next-line no-return-assign
+        .then((response) => this.productData = response.data)
+        // eslint-disable-next-line no-return-assign
+        .catch(() => this.productLoadingFailed = true)
+        // eslint-disable-next-line no-return-assign
+        .then(() => this.productLoading = false);
+    },
   },
   computed: {
     product() {
-      return products.find((product) => product.id === +this.$route.params.id);
+      return this.productData;
     },
     category() {
-      return categories.find((category) => category.id === this.product.categoryId);
+      return this.productData.category.id;
     },
   },
   watch: {
     $route() {
       this.checkCorrectRoute();
     },
-  },
-  created() {
-    this.getPageParams();
+    '$route.params.id': {
+      handler() {
+        this.loadProduct();
+        this.getPageParams();
+      },
+      immediate: true,
+    },
   },
 };
 </script>
