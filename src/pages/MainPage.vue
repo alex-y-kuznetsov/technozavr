@@ -31,6 +31,7 @@
 import ProductList from '@/components/ProductList.vue';
 import BasePagination from '@/components/BasePagination.vue';
 import ProductFilter from '@/components/ProductFilter.vue';
+import productSizes from '@/data/productSizes';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
 
@@ -49,7 +50,7 @@ export default {
         productsBySize: {},
       },
       productsData: null,
-      allProducts: [],
+      allProductsBySize: [],
       productsLoading: false,
       productsLoadingFailed: false,
     };
@@ -60,6 +61,9 @@ export default {
         ? this.productsData.items.map((product) => ({
           ...product,
           image: product.image.file.url,
+          sizes: productSizes.find((productWithSizes) => productWithSizes.id === product.id)
+            ? productSizes.find((productWithSizes) => productWithSizes.id === product.id).sizes
+            : null,
         })) : [];
     },
     countProducts() {
@@ -68,10 +72,7 @@ export default {
   },
   methods: {
     countProductsBySize() {
-      const productsWithSizes = this.allProducts.filter(
-        (product) => product.sizes,
-      );
-      const sizes = productsWithSizes.reduce(
+      const sizes = productSizes.reduce(
         (acc, curr) => [...acc, ...curr.sizes], [],
       ).map((item) => item.sizeId);
       const uniqueSizes = Array.from(new Set(sizes));
@@ -105,11 +106,16 @@ export default {
           .then(() => this.productsLoading = false);
       }, 0);
     },
-    loadAllProducts() {
+    loadAllProductsBySize() {
       axios.get(`${API_BASE_URL}/api/products`)
         // eslint-disable-next-line no-return-assign
-        .then((response) => this.allProducts = response.data.items)
-        .then(this.countProductsBySize());
+        .then((response) => this.allProductsBySize = response.data.items)
+        .then(this.allProductsBySize.map((product) => ({
+          ...product,
+          sizes: productSizes.find((productWithSizes) => productWithSizes.id === product.id)
+            ? productSizes.find((productWithSizes) => productWithSizes.id === product.id).sizes
+            : null,
+        })));
     },
   },
   watch: {
@@ -128,10 +134,14 @@ export default {
     'filters.filterColorId': function watchColorId() {
       this.loadProducts();
     },
+    'filters.filterSizeId': function watchSizeId() {
+      this.loadAllProductsBySize();
+    },
   },
   created() {
     this.loadProducts();
-    this.loadAllProducts();
+    this.loadAllProductsBySize();
+    this.countProductsBySize();
   },
 };
 </script>
