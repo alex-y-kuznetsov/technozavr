@@ -14,7 +14,7 @@
         >{{ description.title }}</a>
       </li>
     </ul>
-    <component v-if="product.descriptions"
+    <component v-if="product.content && product.content.length"
                v-bind:product="product"
                v-bind:is="getTabComponentName(shownDescription)" />
     <div v-else class="item__content"> Описания для данного товара отсутствуют</div>
