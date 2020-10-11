@@ -6,9 +6,7 @@
     </div>
 
     <div class="content__catalog">
-      <ProductFilter
-        v-bind.sync="filters"
-      />
+      <ProductFilter v-bind.sync="filters" />
 
       <section class="catalog">
         <div v-if="productsLoading">Загрузка товаров...</div>
@@ -28,12 +26,12 @@
 </template>
 
 <script>
-import ProductList from '@/components/ProductList.vue';
-import BasePagination from '@/components/BasePagination.vue';
-import ProductFilter from '@/components/ProductFilter.vue';
-import productSizes from '@/data/productSizes';
-import axios from 'axios';
-import { API_BASE_URL } from '../config';
+import ProductList from "@/components/ProductList.vue";
+import BasePagination from "@/components/BasePagination.vue";
+import ProductFilter from "@/components/ProductFilter.vue";
+import productSizes from "@/data/productSizes";
+import axios from "axios";
+import { API_BASE_URL } from "../config";
 
 export default {
   components: { ProductList, BasePagination, ProductFilter },
@@ -59,12 +57,17 @@ export default {
     products() {
       return this.productsData
         ? this.productsData.items.map((product) => ({
-          ...product,
-          image: product.image.file.url,
-          sizes: productSizes.find((productWithSizes) => productWithSizes.id === product.id)
-            ? productSizes.find((productWithSizes) => productWithSizes.id === product.id).sizes
-            : null,
-        })) : [];
+            ...product,
+            image: product.image.file.url,
+            sizes: productSizes.find(
+              (productWithSizes) => productWithSizes.id === product.id
+            )
+              ? productSizes.find(
+                  (productWithSizes) => productWithSizes.id === product.id
+                ).sizes
+              : null,
+          }))
+        : [];
     },
     countProducts() {
       return this.productsData ? this.productsData.pagination.total : 0;
@@ -72,9 +75,9 @@ export default {
   },
   methods: {
     countProductsBySize() {
-      const sizes = productSizes.reduce(
-        (acc, curr) => [...acc, ...curr.sizes], [],
-      ).map((item) => item.sizeId);
+      const sizes = productSizes
+        .reduce((acc, curr) => [...acc, ...curr.sizes], [])
+        .map((item) => item.sizeId);
       const uniqueSizes = Array.from(new Set(sizes));
       const result = {};
       uniqueSizes.forEach((uniqueSize) => {
@@ -88,53 +91,57 @@ export default {
       this.productsLoadingFailed = false;
       clearTimeout(this.loadProductsTimer);
       this.loadProductsTimer = setTimeout(() => {
-        axios.get(`${API_BASE_URL}/api/products`, {
-          params: {
-            page: this.filters.page,
-            limit: this.filters.productsPerPage,
-            categoryId: this.filters.filterCategoryId,
-            colorId: this.filters.filterColorId,
-            minPrice: this.filters.filterPriceFrom,
-            maxPrice: this.filters.filterPriceTo,
-          },
-        })
-        // eslint-disable-next-line no-return-assign
-          .then((response) => this.productsData = response.data)
-          // eslint-disable-next-line no-return-assign
-          .catch(() => this.productsLoadingFailed = true)
-          // eslint-disable-next-line no-return-assign
-          .then(() => this.productsLoading = false);
+        axios
+          .get(`${API_BASE_URL}/api/products`, {
+            params: {
+              page: this.filters.page,
+              limit: this.filters.productsPerPage,
+              categoryId: this.filters.filterCategoryId,
+              colorId: this.filters.filterColorId,
+              minPrice: this.filters.filterPriceFrom,
+              maxPrice: this.filters.filterPriceTo,
+            },
+          })
+          .then((response) => (this.productsData = response.data))
+          .catch(() => (this.productsLoadingFailed = true))
+          .then(() => (this.productsLoading = false));
       }, 0);
     },
     loadAllProductsBySize() {
-      axios.get(`${API_BASE_URL}/api/products`)
-        // eslint-disable-next-line no-return-assign
-        .then((response) => this.allProductsBySize = response.data.items)
-        .then(this.allProductsBySize.map((product) => ({
-          ...product,
-          sizes: productSizes.find((productWithSizes) => productWithSizes.id === product.id)
-            ? productSizes.find((productWithSizes) => productWithSizes.id === product.id).sizes
-            : null,
-        })));
+      axios
+        .get(`${API_BASE_URL}/api/products`)
+        .then((response) => (this.allProductsBySize = response.data.items))
+        .then(
+          this.allProductsBySize.map((product) => ({
+            ...product,
+            sizes: productSizes.find(
+              (productWithSizes) => productWithSizes.id === product.id
+            )
+              ? productSizes.find(
+                  (productWithSizes) => productWithSizes.id === product.id
+                ).sizes
+              : null,
+          }))
+        );
     },
   },
   watch: {
-    'filters.page': function watchPage() {
+    "filters.page": function watchPage() {
       this.loadProducts();
     },
-    'filters.filterPriceFrom': function watchPriceFrom() {
+    "filters.filterPriceFrom": function watchPriceFrom() {
       this.loadProducts();
     },
-    'filters.filterPriceTo': function watchPriceTo() {
+    "filters.filterPriceTo": function watchPriceTo() {
       this.loadProducts();
     },
-    'filters.filterCategoryId': function watchCategoryId() {
+    "filters.filterCategoryId": function watchCategoryId() {
       this.loadProducts();
     },
-    'filters.filterColorId': function watchColorId() {
+    "filters.filterColorId": function watchColorId() {
       this.loadProducts();
     },
-    'filters.filterSizeId': function watchSizeId() {
+    "filters.filterSizeId": function watchSizeId() {
       this.loadAllProductsBySize();
     },
   },
