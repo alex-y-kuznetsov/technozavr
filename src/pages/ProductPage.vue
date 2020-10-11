@@ -154,11 +154,8 @@ export default {
       this.productLoading = true;
       this.productLoadingFailed = false;
       axios.get(`${API_BASE_URL}/api/products/${this.$route.params.id}`)
-      // eslint-disable-next-line no-return-assign
         .then((response) => this.productData = response.data)
-        // eslint-disable-next-line no-return-assign
         .catch(() => this.productLoadingFailed = true)
-        // eslint-disable-next-line no-return-assign
         .then(() => this.productLoading = false);
     },
   },

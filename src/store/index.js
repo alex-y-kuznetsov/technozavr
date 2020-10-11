@@ -88,7 +88,6 @@ export default new Vuex.Store({
       if (amount < 1) {
         return;
       }
-      // eslint-disable-next-line consistent-return
       return axios.put(`${API_BASE_URL}/api/baskets/products`, {
         productId,
         quantity: amount,

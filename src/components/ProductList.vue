@@ -3,7 +3,7 @@
       <li class="catalog__item" v-for="(product, index) in products" v-bind:key="product.id">
         <ProductItem v-bind:product="product" v-bind:productIndex="index"
          v-on:product-click="$router.push({name: 'product', params: {
-           id: product.id, sizes: product.sizes
+           id: product.id
            }})"/>
       </li>
     </ul>

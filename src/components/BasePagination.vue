@@ -64,7 +64,6 @@ export default {
     pages() {
       const length = Math.ceil(this.count / this.perPage);
       const pagesList = [];
-      // eslint-disable-next-line no-plusplus
       for (let i = 0; i < length; i++) {
         const pageItem = {
           title: i + 1,
@@ -78,7 +77,6 @@ export default {
     croppedPagesList() {
       const localThis = this;
       const croppedPagesList = this.pages.map((pageItem, index) => {
-        // eslint-disable-next-line no-param-reassign
         pageItem = {
           title: index + 1,
           index: index + 1,

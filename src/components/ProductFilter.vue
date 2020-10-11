@@ -161,12 +161,10 @@ export default {
     },
     loadCategories() {
       axios.get(`${API_BASE_URL}/api/productCategories`)
-      // eslint-disable-next-line no-return-assign
         .then((response) => this.categoriesData = response.data);
     },
     loadColors() {
       axios.get(`${API_BASE_URL}/api/colors`)
-      // eslint-disable-next-line no-return-assign
         .then((response) => this.colorsData = response.data);
     },
   },

@@ -107,47 +107,17 @@ export default {
           .then(() => (this.productsLoading = false));
       }, 0);
     },
-    loadAllProductsBySize() {
-      axios
-        .get(`${API_BASE_URL}/api/products`)
-        .then((response) => (this.allProductsBySize = response.data.items))
-        .then(
-          this.allProductsBySize.map((product) => ({
-            ...product,
-            sizes: productSizes.find(
-              (productWithSizes) => productWithSizes.id === product.id
-            )
-              ? productSizes.find(
-                  (productWithSizes) => productWithSizes.id === product.id
-                ).sizes
-              : null,
-          }))
-        );
-    },
   },
   watch: {
-    "filters.page": function watchPage() {
-      this.loadProducts();
-    },
-    "filters.filterPriceFrom": function watchPriceFrom() {
-      this.loadProducts();
-    },
-    "filters.filterPriceTo": function watchPriceTo() {
-      this.loadProducts();
-    },
-    "filters.filterCategoryId": function watchCategoryId() {
-      this.loadProducts();
-    },
-    "filters.filterColorId": function watchColorId() {
-      this.loadProducts();
-    },
-    "filters.filterSizeId": function watchSizeId() {
-      this.loadAllProductsBySize();
+    filters: {
+      handler() {
+        this.loadProducts();
+      },
+      deep: true,
     },
   },
   created() {
     this.loadProducts();
-    this.loadAllProductsBySize();
     this.countProductsBySize();
   },
 };
