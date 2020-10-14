@@ -107,6 +107,11 @@ export default {
           .then(() => (this.productsLoading = false));
       }, 0);
     },
+    checkCategoryRoute() {
+      if (this.$router.currentRoute.params.category) {
+        this.filters.filterCategoryId = this.$router.currentRoute.params.category;
+      }
+    }
   },
   watch: {
     filters: {
@@ -119,6 +124,7 @@ export default {
   created() {
     this.loadProducts();
     this.countProductsBySize();
+    this.checkCategoryRoute();
   },
 };
 </script>

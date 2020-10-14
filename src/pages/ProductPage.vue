@@ -8,7 +8,7 @@
           </router-link>
         </li>
         <li class="breadcrumbs__item">
-          <router-link class="breadcrumbs__link" v-bind:to="{name: 'main'}">
+          <router-link class="breadcrumbs__link" v-bind:to="{name: 'main', params: { category }}">
             {{ product.category.title }}
           </router-link>
         </li>
@@ -146,7 +146,7 @@ export default {
         });
     },
     checkCorrectRoute() {
-      if (!this.product) {
+      if (this.product.id !== this.$router.currentRoute.params.id) {
         this.$router.push({ name: 'notFound' });
       }
     },
