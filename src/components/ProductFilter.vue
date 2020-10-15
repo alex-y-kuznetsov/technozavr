@@ -80,6 +80,7 @@
 import axios from 'axios';
 import sizes from '../data/sizes';
 import { API_BASE_URL } from '../config';
+import eventBus from '@/eventBus';
 
 export default {
   data() {
@@ -171,6 +172,9 @@ export default {
   created() {
     this.loadCategories();
     this.loadColors();
+    eventBus.$on('logo-click', () => {
+      this.reset();
+    });
   },
 };
 </script>
