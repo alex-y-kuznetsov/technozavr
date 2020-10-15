@@ -145,17 +145,15 @@ export default {
           this.productAddSending = false;
         });
     },
-    checkCorrectRoute() {
-      if (this.product.id !== this.$router.currentRoute.params.id) {
-        this.$router.push({ name: 'notFound' });
-      }
-    },
     loadProduct() {
       this.productLoading = true;
       this.productLoadingFailed = false;
       axios.get(`${API_BASE_URL}/api/products/${this.$route.params.id}`)
         .then((response) => this.productData = response.data)
-        .catch(() => this.productLoadingFailed = true)
+        .catch(() => { 
+          this.productLoadingFailed = true;
+          this.$router.replace({ name: 'notFound' });
+        })
         .then(() => this.productLoading = false);
     },
   },
@@ -168,9 +166,6 @@ export default {
     },
   },
   watch: {
-    $route() {
-      this.checkCorrectRoute();
-    },
     '$route.params.id': {
       handler() {
         this.loadProduct();
