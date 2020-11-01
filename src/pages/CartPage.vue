@@ -35,7 +35,8 @@
             <span>{{totalPrice | numberFormat}} ₽</span>
           </p>
 
-          <button class="cart__button button button--primery" type="submit">Оформить заказ</button>
+          <router-link tag="button" v-bind:to="{name: 'order'}" class="cart__button button button--primery" type="submit">
+            Оформить заказ</router-link>
         </div>
       </form>
     </section>
