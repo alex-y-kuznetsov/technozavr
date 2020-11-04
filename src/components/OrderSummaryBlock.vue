@@ -3,7 +3,7 @@
     <ul class="cart__orders">
       <li
         class="cart__order"
-        v-for="cartProductItem in $store.state.cartProductsData"
+        v-for="cartProductItem in cartProductItems"
         v-bind:key="cartProductItem.id"
       >
         <h3>
@@ -27,9 +27,18 @@
       </p>
     </div>
 
-    <button class="cart__button button button--primery" type="submit">
+    <button class="cart__button button button--primery" 
+            type="submit"
+            v-if="$route.name !== 'orderInfo'"
+            v-bind:disabled="!$store.state.cartProducts.length" >
       Оформить заказ
     </button>
+    <router-link v-else tag="button" 
+                class="cart__button button button--primery" 
+                v-bind:to="{name: 'main'}">
+      Вернуться в каталог
+    </router-link>
+
   </div>
 </template>
 
@@ -44,6 +53,15 @@ export default {
       totalPrice: "cartTotalPrice",
       totalProducts: "cartTotalProducts",
     }),
+    cartProductItems() {
+      if (this.$router.currentRoute.name === 'order') {
+        return this.$store.state.cartProductsData;
+      } else if (this.$router.currentRoute.name === 'orderInfo') {
+        return this.$store.state.orderInfo.basket.items;
+      } else {
+        return {};
+      }
+    },
   },
   data() {
     return {
