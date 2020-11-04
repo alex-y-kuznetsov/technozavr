@@ -114,26 +114,17 @@
 
         <div class="cart__block">
           <ul class="cart__orders">
-            <li class="cart__order">
-              <h3>Смартфон Xiaomi Redmi Note 7 Pro 6/128GB</h3>
-              <b>18 990 ₽</b>
-              <span>Артикул: 150030</span>
-            </li>
-            <li class="cart__order">
-              <h3>Гироскутер Razor Hovertrax 2.0ii</h3>
-              <b>4 990 ₽</b>
-              <span>Артикул: 150030</span>
-            </li>
-            <li class="cart__order">
-              <h3>Электрический дрифт-карт Razor Lil’ Crazy</h3>
-              <b>8 990 ₽</b>
-              <span>Артикул: 150030</span>
+            <li class="cart__order" v-for="cartProductItem in $store.state.cartProductsData" v-bind:key="cartProductItem.id">
+              <h3>{{ cartProductItem.product.title }} 
+                <b v-if="cartProductItem.quantity > 1">({{ cartProductItem.quantity }})</b></h3>
+              <b>{{ cartProductItem.price }}</b>
+              <span>Артикул: {{ cartProductItem.id }}</span>
             </li>
           </ul>
 
           <div class="cart__total">
-            <p>Доставка: <b>500 ₽</b></p>
-            <p>Итого: <b>3</b> товара на сумму <b>37 970 ₽</b></p>
+            <p>Доставка: <b>{{ deliveryCost }} ₽</b></p>
+            <p>Итого: <b>{{ totalProducts }}</b> товар{{ getSuffix() }} на сумму <b>{{ totalPrice + deliveryCost | numberFormat }} ₽</b></p>
           </div>
 
           <button class="cart__button button button--primery" type="submit">
@@ -154,18 +145,43 @@
 <script>
 import BaseFormText from "@/components/BaseFormText";
 import BaseFormTextarea from "@/components/BaseFormTextarea";
-import axios from 'axios'
+import axios from 'axios';
 import { API_BASE_URL } from '../config';
+import numberFormat from '@/helpers/filters/numberFormat';
+import { mapGetters } from 'vuex';
+
 export default {
   components: { BaseFormText, BaseFormTextarea },
+  filters: { numberFormat },
   data() {
     return {
       formData: {},
       formError: {},
+      deliveryCost: 500,
       formErrorMessage: '',
     };
   },
+  computed: {
+    ...mapGetters({ totalPrice: 'cartTotalPrice', totalProducts: 'cartTotalProducts' }),
+  },
   methods: {
+    getSuffix() {
+      switch(this.totalProducts) {
+        case 1 : 
+          return '';
+          break;
+
+        case 2:
+        case 3:
+        case 5:
+          return 'а';
+          break;
+
+        default:
+          return 'ов';
+          break;
+      }
+    },
     order() {
       this.formError = {};
       this.formEerrorMessage = '';
@@ -187,6 +203,6 @@ export default {
           this.formErrorMessage = error.response.data.error.message;
         })
     },
-  }
+  },
 };
 </script>
