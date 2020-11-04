@@ -17,6 +17,7 @@ const destinations = {
   product: 'Каталог',
   cart: 'Корзина',
   notFound: 'Страница не найдена',
+  order: 'Оформление заказа',
 };
 
 export default {

@@ -18,7 +18,7 @@
     </div>
 
     <section class="cart">
-      <form class="cart__form form" action="#" method="POST">
+      <form class="cart__form form" action="#" method="POST" v-on:submit.prevent="order">
         <div class="cart__field">
           <div class="cart__data">
             <BaseFormText
@@ -48,7 +48,8 @@
             />
             <BaseFormTextarea
               title="Комментарий к заказу"
-              v-model="formData.comments"
+              v-model="formData.comment"
+              v-bind:error="formError.comment"
               placeholder="Ваши пожелания"
             />
           </div>
@@ -139,11 +140,10 @@
             Оформить заказ
           </button>
         </div>
-        <div class="cart__error form__error-block">
+        <div class="cart__error form__error-block" v-if="formErrorMessage">
           <h4>Заявка не отправлена!</h4>
           <p>
-            Похоже произошла ошибка. Попробуйте отправить снова или
-            перезагрузите страницу.
+            {{ formErrorMessage }}
           </p>
         </div>
       </form>
@@ -154,13 +154,37 @@
 <script>
 import BaseFormText from "@/components/BaseFormText";
 import BaseFormTextarea from "@/components/BaseFormTextarea";
+import axios from 'axios'
+import { API_BASE_URL } from '../config';
 export default {
   components: { BaseFormText, BaseFormTextarea },
   data() {
     return {
       formData: {},
       formError: {},
+      formErrorMessage: '',
     };
   },
+  methods: {
+    order() {
+      this.formError = {};
+      this.formEerrorMessage = '';
+      axios
+        .post(API_BASE_URL + '/api/orders', {
+          ...this.formData
+        },  {
+          params: {
+            userAccessKey: this.$store.state.userAccessKey
+          }
+        })
+        .then(() => {
+          this.$store.commit('resetCart');
+        })
+        .catch(error => {
+          this.formError = error.response.data.error.request || {};
+          this.formErrorMessage = error.response.data.error.message;
+        })
+    },
+  }
 };
 </script>
