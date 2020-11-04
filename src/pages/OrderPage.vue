@@ -170,15 +170,17 @@ export default {
       this.formError = {};
       this.formEerrorMessage = '';
       axios
-        .post(API_BASE_URL + '/api/orders', {
+        .post(`${API_BASE_URL}/api/orders`, {
           ...this.formData
         },  {
           params: {
             userAccessKey: this.$store.state.userAccessKey
           }
         })
-        .then(() => {
+        .then(response => {
           this.$store.commit('resetCart');
+          this.$store.commit('updateOrderInfo', response.data);
+          this.$router.push({name: 'orderInfo', params: {id: response.data.id}});
         })
         .catch(error => {
           this.formError = error.response.data.error.request || {};
