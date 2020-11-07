@@ -80,7 +80,7 @@ export default {
 
         case 2:
         case 3:
-        case 5:
+        case 4:
           return "а";
           break;
 
