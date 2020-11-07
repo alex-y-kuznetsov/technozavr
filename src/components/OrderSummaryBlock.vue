@@ -22,8 +22,8 @@
         Доставка: <b>{{ deliveryCost }} ₽</b>
       </p>
       <p>
-        Итого: <b>{{ totalProducts }}</b> товар{{ getSuffix() }} на сумму
-        <b>{{ (totalPrice + deliveryCost) | numberFormat }} ₽</b>
+        Итого: <b>{{ totalProductsToShow }}</b> товар{{ getSuffix() }} на сумму
+        <b>{{ (totalPriceToShow + deliveryCost) | numberFormat }} ₽</b>
       </p>
     </div>
 
@@ -53,10 +53,16 @@ export default {
       totalPrice: "cartTotalPrice",
       totalProducts: "cartTotalProducts",
     }),
+    totalProductsToShow() {
+      return this.checkOrderFinal() ? this.$store.state.orderAmount : this.totalProducts;
+    },
+    totalPriceToShow() {
+      return this.checkOrderFinal() ? this.$store.state.orderInfo.totalPrice : this.totalPrice;
+    },
     cartProductItems() {
-      if (this.$router.currentRoute.name === 'order') {
+      if (!this.checkOrderFinal()) {
         return this.$store.state.cartProductsData;
-      } else if (this.$router.currentRoute.name === 'orderInfo') {
+      } else if (this.checkOrderFinal()) {
         return this.$store.state.orderInfo.basket.items;
       } else {
         return {};
@@ -69,6 +75,9 @@ export default {
     };
   },
   methods: {
+    checkOrderFinal() {
+      return this.$router.currentRoute.name === 'orderInfo';
+    },
     getSuffix() {
       switch (this.totalProducts) {
         case 1:
