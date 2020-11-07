@@ -53,20 +53,17 @@ export default {
       totalPrice: "cartTotalPrice",
       totalProducts: "cartTotalProducts",
     }),
+    checkOrderFinal() {
+      return this.$router.currentRoute.name === 'orderInfo';
+    },
     totalProductsToShow() {
-      return this.checkOrderFinal() ? this.$store.state.orderAmount : this.totalProducts;
+      return this.checkOrderFinal ? this.$store.state.orderAmount : this.totalProducts;
     },
     totalPriceToShow() {
-      return this.checkOrderFinal() ? this.$store.state.orderInfo.totalPrice : this.totalPrice;
+      return this.checkOrderFinal ? this.$store.state.orderInfo.totalPrice : this.totalPrice;
     },
     cartProductItems() {
-      if (!this.checkOrderFinal()) {
-        return this.$store.state.cartProductsData;
-      } else if (this.checkOrderFinal()) {
-        return this.$store.state.orderInfo.basket.items;
-      } else {
-        return {};
-      }
+      return this.checkOrderFinal ? this.$store.state.orderInfo.basket.items : this.$store.state.cartProductsData;
     },
   },
   data() {
@@ -75,9 +72,6 @@ export default {
     };
   },
   methods: {
-    checkOrderFinal() {
-      return this.$router.currentRoute.name === 'orderInfo';
-    },
     getSuffix() {
       switch (this.totalProducts) {
         case 1:

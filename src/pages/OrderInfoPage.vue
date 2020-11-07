@@ -38,7 +38,7 @@
                 Получатель
               </span>
               <span class="dictionary__value">
-                Иванова Василиса Алексеевна
+                {{ orderInfo.name }}
               </span>
             </li>
             <li class="dictionary__item">
@@ -46,7 +46,7 @@
                 Адрес доставки
               </span>
               <span class="dictionary__value">
-                Москва, ул. Ленина, 21, кв. 33
+                {{ orderInfo.address }}
               </span>
             </li>
             <li class="dictionary__item">
@@ -54,7 +54,7 @@
                 Телефон
               </span>
               <span class="dictionary__value">
-                8 800 989 74 84
+                {{ orderInfo.phone }}
               </span>
             </li>
             <li class="dictionary__item">
@@ -62,7 +62,7 @@
                 Email
               </span>
               <span class="dictionary__value">
-                lalala@mail.ru
+                {{ orderInfo.email }}
               </span>
             </li>
             <li class="dictionary__item">
@@ -70,7 +70,7 @@
                 Способ оплаты
               </span>
               <span class="dictionary__value">
-                картой при получении
+                Не указан
               </span>
             </li>
           </ul>
@@ -88,6 +88,11 @@ import OrderSummaryBlock from "@/components/OrderSummaryBlock.vue";
 
 export default {
   components: { OrderSummaryBlock },
+  data() {
+    return {
+      orderInfo: this.$store.state.orderInfo,
+    };
+  },
   created() {
     if (this.$store.state.orderInfo && this.$store.state.orderInfo.id === this.$route.params.id) {
       return;
