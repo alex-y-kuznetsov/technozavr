@@ -1,5 +1,5 @@
 <template>
-  <div class="cart__block">
+  <div class="cart__block" v-if="isBlockRendered">
     <ul class="cart__orders">
       <li
         class="cart__order"
@@ -53,17 +53,28 @@ export default {
       totalPrice: "cartTotalPrice",
       totalProducts: "cartTotalProducts",
     }),
-    checkOrderFinal() {
+    isBlockRendered() {
+      if (!this.isOrderFinal) {
+        return true;
+      } else {
+        if (this.isOrderFinal && this.$store.state.orderInfo) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    },
+    isOrderFinal() {
       return this.$router.currentRoute.name === 'orderInfo';
     },
     totalProductsToShow() {
-      return this.checkOrderFinal ? this.$store.state.orderAmount : this.totalProducts;
+      return this.isOrderFinal ? this.$store.state.orderAmount : this.totalProducts;
     },
     totalPriceToShow() {
-      return this.checkOrderFinal ? this.$store.state.orderInfo.totalPrice : this.totalPrice;
+      return this.isOrderFinal ? this.$store.state.orderInfo.totalPrice : this.totalPrice;
     },
     cartProductItems() {
-      return this.checkOrderFinal ? this.$store.state.orderInfo.basket.items : this.$store.state.cartProductsData;
+      return this.isOrderFinal ? this.$store.state.orderInfo.basket.items : this.$store.state.cartProductsData;
     },
   },
   data() {

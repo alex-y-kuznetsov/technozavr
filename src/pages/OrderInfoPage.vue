@@ -32,7 +32,7 @@
             Наши менеджеры свяжутся с&nbsp;Вами в&nbsp;течение часа для уточнения деталей доставки.
           </p>
 
-          <ul class="dictionary">
+          <ul class="dictionary" v-if="orderInfo">
             <li class="dictionary__item">
               <span class="dictionary__key">
                 Получатель
@@ -88,10 +88,10 @@ import OrderSummaryBlock from "@/components/OrderSummaryBlock.vue";
 
 export default {
   components: { OrderSummaryBlock },
-  data() {
-    return {
-      orderInfo: this.$store.state.orderInfo,
-    };
+  computed: {
+    orderInfo() {
+      return this.$store.state.orderInfo
+    }
   },
   created() {
     if (this.$store.state.orderInfo && this.$store.state.orderInfo.id === this.$route.params.id) {
