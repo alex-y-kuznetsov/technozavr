@@ -20,7 +20,7 @@
       </ul>
 
       <h1 class="content__title">
-        Заказ оформлен <span>№ 23621</span>
+        Заказ оформлен <span>№ {{ orderInfo.id }}</span>
       </h1>
     </div>
 
