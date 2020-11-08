@@ -22,7 +22,7 @@
         Доставка: <b>{{ deliveryCost }} ₽</b>
       </p>
       <p>
-        Итого: <b>{{ totalProductsToShow }}</b> товар{{ getSuffix() }} на сумму
+        Итого: <b>{{ totalProductsToShow }}</b> товар{{ getSuffix(totalProducts) }} на сумму
         <b>{{ (totalPriceToShow + deliveryCost) | numberFormat }} ₽</b>
       </p>
     </div>
@@ -45,6 +45,7 @@
 <script>
 import numberFormat from "@/helpers/filters/numberFormat";
 import { mapGetters } from "vuex";
+import getSuffix from "@/helpers/getSuffix.js"
 
 export default {
   filters: { numberFormat },
@@ -83,23 +84,7 @@ export default {
     };
   },
   methods: {
-    getSuffix() {
-      switch (this.totalProducts) {
-        case 1:
-          return "";
-          break;
-
-        case 2:
-        case 3:
-        case 4:
-          return "а";
-          break;
-
-        default:
-          return "ов";
-          break;
-      }
-    },
+    getSuffix,
   },
 };
 </script>
