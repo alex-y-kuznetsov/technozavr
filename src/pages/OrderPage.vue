@@ -124,10 +124,23 @@
             {{ formErrorMessage }}
           </p>
         </div>
+
+        <div class="form-loader" v-if="isLoaderShown">
+            Отправляем Вашу заявку...
+          </div>
       </form>
     </section>
   </main>
 </template>
+
+<style>
+.form-loader {
+  padding: 50px;
+  text-align: center;
+  background-color: #272727;
+  color: #ffffff;
+}
+</style>
 
 <script>
 import BaseFormText from "@/components/BaseFormText";
@@ -145,6 +158,7 @@ export default {
       formData: {},
       formError: {},
       formErrorMessage: '',
+      isLoaderShown: false,
     };
   },
   computed: {
@@ -155,6 +169,7 @@ export default {
   methods: {
     getSuffix,
     order() {
+      this.isLoaderShown = true;
       this.formError = {};
       this.formEerrorMessage = '';
       axios
@@ -169,8 +184,10 @@ export default {
           this.$store.commit('resetCart');
           this.$store.commit('updateOrderInfo', response.data);
           this.$router.push({name: 'orderInfo', params: {id: response.data.id}});
+          this.isLoaderShown = false;
         })
         .catch(error => {
+          this.isLoaderShown = false;
           this.formError = error.response.data.error.request || {};
           this.formErrorMessage = error.response.data.error.message;
         })
