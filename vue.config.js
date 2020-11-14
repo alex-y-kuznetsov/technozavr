@@ -1,3 +1,3 @@
 module.exports = {
-  publicPath: '/Technozavr-Build/'
+  publicPath: '/technozavr-build/'
 }
