@@ -58,7 +58,7 @@
             />
           </div>
 
-          <div class="cart__options">
+          <div class="cart__options" v-if="isCartOptionsShown">
             <h3 class="cart__title">Доставка</h3>
             <ul class="cart__options options">
               <li class="options__item">
@@ -159,6 +159,7 @@ export default {
       formError: {},
       formErrorMessage: '',
       isLoaderShown: false,
+      isCartOptionsShown: false,
     };
   },
   computed: {

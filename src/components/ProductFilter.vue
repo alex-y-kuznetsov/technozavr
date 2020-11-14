@@ -47,7 +47,7 @@
             </ul>
           </fieldset>
 
-          <fieldset class="form__block">
+          <fieldset class="form__block" v-if="isSizeFilterShown">
             <legend class="form__legend">Объем в ГБ</legend>
             <ul class="check-list">
               <li class="check-list__item" v-for="size in sizes" v-bind:key="size.sizeName">
@@ -93,6 +93,7 @@ export default {
       categoriesData: null,
       colorsData: null,
       sizes,
+      isSizeFilterShown: false,
     };
   },
   props: {
